@@ -1,0 +1,13 @@
+.boxStyle{
+	width: 150px;
+	height: 170px;
+	float: left;
+	background: #FFFFFF;
+}
+.boxStyleInner{
+	width: 130px;
+	height: auto;
+	float: left;
+	margin-left: 5px;
+	margin-top: 10px;
+}

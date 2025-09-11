@@ -1,0 +1,67 @@
+:global .content-inner5 .ant-table-tbody tr:hover td{
+	background-color: #ffffff;
+	color: #000;
+}
+:global .ack_red {
+	background: #C50000;
+	color: #fff;
+}
+:global .ack_black {
+	background: #000;
+	color: #fff;
+}
+:global .ack_yellow {
+	background: #CDCD00;
+	color: #fff;
+}
+:global .ack_orange {
+	background: #B56300;
+	color: #fff;
+}
+:global .ack_blue {
+	background: #4F94CD;
+	color: #fff;
+}
+:global .ack_green {
+	background: #008B00;
+	color: #fff;
+}
+:global .ack_purple {
+	background: #68228B;
+	color: #fff;
+}
+
+:global .black {
+	background: #000000;
+	color: #000;
+}
+
+:global .red {
+	background: #FF0000;
+	color: #000;
+}
+
+:global .yellow {
+	background: #ffff00;
+	color: #000;
+}
+:global .orange {
+	background: #FFB329;
+	color: #000;
+}
+:global .blue {
+	background: #63B8FF;
+	color: #000;
+}
+:global .green {
+	background: #00CD00;
+	color: #000;
+}
+:global .purple {
+	background: #B23AEE;
+	color: #000;
+}
+:global .black {
+	background: #dedede;
+	color: #000;
+}

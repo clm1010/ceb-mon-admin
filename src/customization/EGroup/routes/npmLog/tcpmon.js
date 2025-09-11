@@ -1,0 +1,306 @@
+export default  [
+{
+	title: '1_time',
+	dataIndex: 'time',
+	key: 'time',
+	width: 200,
+	render: (text, record) => {
+			return new Date(text * 1000).format('yyyy-MM-dd hh:mm:ss')
+		},
+}, {
+	title: '2_application_id',
+	dataIndex: 'application_id',
+	key: 'application_id',
+	width: 200,
+}, {
+	title: '3_application_name',
+	dataIndex: 'application_name',
+	key: 'application_name',
+	width: 220,
+}, {
+	title: '4_avg_client_0WindowRTT',
+	dataIndex: 'avg_client_0WindowRTT',
+	key: 'avg_client_0WindowRTT',
+	width: 290,
+}, {
+	title: '5_avg_server_0WindowRTT',
+	dataIndex: 'avg_server_0WindowRTT',
+	key: 'avg_server_0WindowRTT',
+	width: 290,
+}, {
+	title: '6_client_connection_noresponse',
+	dataIndex: 'client_connection_noresponse',
+	key: 'client_connection_noresponse',
+	width: 350,
+}, {
+	title: '7_client_connection_rst',
+	dataIndex: 'client_connection_rst',
+	key: 'client_connection_rst',
+	width: 240,
+}, {
+	title: '8_client_tcp_retrans_count',
+	dataIndex: 'client_tcp_retrans_count',
+	key: 'client_tcp_retrans_count',
+	width: 280,
+}, {
+	title: '9_close_flow_count',
+	dataIndex: 'close_flow_count',
+	key: 'close_flow_count',
+	width: 200,
+}, {
+	title: '10_concurrent_flow_count',
+	dataIndex: 'concurrent_flow_count',
+	key: 'concurrent_flow_count',
+	width: 220,
+}, {
+	title: '11_connection_noresponse',
+	dataIndex: 'connection_noresponse',
+	key: 'connection_noresponse',
+	width: 250,
+}, {
+	title: '12_create_flow_count',
+	dataIndex: 'create_flow_count',
+	key: 'create_flow_count',
+	width: 200,
+}, {
+	title: '13_downlink_bitps',
+	dataIndex: 'downlink_bitps',
+	key: 'downlink_bitps',
+	width: 180,
+}, {
+	title: '14_downlink_byte',
+	dataIndex: 'downlink_byte',
+	key: 'downlink_byte',
+	width: 180,
+}, {
+	title: '15_downlink_packet',
+	dataIndex: 'downlink_packet',
+	key: 'downlink_packet',
+	width: 180,
+}, {
+	title: '16_downlink_packet_lost_rate',
+	dataIndex: 'downlink_packet_lost_rate',
+	key: 'downlink_packet_lost_rate',
+	width: 250,
+}, {
+	title: '17_downlink_packet_retrans_rate',
+	dataIndex: 'downlink_packet_retrans_rate',
+	key: 'downlink_packet_retrans_rate',
+	width: 300,
+}, {
+	title: '18_downlink_tcp_retransmission_packet',
+	dataIndex: 'downlink_tcp_retransmission_packet',
+	key: 'downlink_tcp_retransmission_packet',
+	width: 320,
+}, {
+	title: '19_downlink_tcp_rst_packet',
+	dataIndex: 'downlink_tcp_rst_packet',
+	key: 'downlink_tcp_rst_packet',
+	width: 280,
+}, {
+	title: '20_downlink_tcp_segment_lost_packet',
+	dataIndex: 'downlink_tcp_segment_lost_packet',
+	key: 'downlink_tcp_segment_lost_packet',
+	width: 300,
+}, {
+	title: '21_max_client_0WindowRTT',
+	dataIndex: 'max_client_0WindowRTT',
+	key: 'max_client_0WindowRTT',
+	width: 250,
+}, {
+	title: '22_max_server_0WindowRTT',
+	dataIndex: 'max_server_0WindowRTT',
+	key: 'max_server_0WindowRTT',
+	width: 250,
+}, {
+	title: '23_min_client_0WindowRTT',
+	dataIndex: 'min_client_0WindowRTT',
+	key: 'min_client_0WindowRTT',
+	width: 250,
+}, {
+	title: '24_min_server_0WindowRTT',
+	dataIndex: 'min_server_0WindowRTT',
+	key: 'min_server_0WindowRTT',
+	width: 250,
+}, {
+	title: '25_netlinkId',
+	dataIndex: 'netlinkId',
+	key: 'netlinkId',
+	width: 180,
+}, {
+	title: '26_new_flow_count',
+	dataIndex: 'new_flow_count',
+	key: 'new_flow_count',
+	width: 180,
+}, {
+	title: '27_server_connection_noresponse',
+	dataIndex: 'server_connection_noresponse',
+	key: 'server_connection_noresponse',
+	width: 250,
+}, {
+	title: '28_server_connection_rst',
+	dataIndex: 'server_connection_rst',
+	key: 'server_connection_rst',
+	width: 180,
+}, {
+	title: '29_server_tcp_retrans_count',
+	dataIndex: 'server_tcp_retrans_count',
+	key: 'server_tcp_retrans_count',
+	width: 250,
+}, {
+	title: '30_server_tcp_window_0',
+	dataIndex: 'server_tcp_window_0',
+	key: 'server_tcp_window_0',
+	width: 180,
+}, {
+	title: '31_server_tcp_window_avg_size',
+	dataIndex: 'server_tcp_window_avg_size',
+	key: 'server_tcp_window_avg_size',
+	width: 250,
+}, {
+	title: '32_server_tcp_window_min_size',
+	dataIndex: 'server_tcp_window_min_size',
+	key: 'server_tcp_window_min_size',
+	width: 250,
+}, {
+	title: '33_taskName',
+	dataIndex: 'taskName',
+	key: 'taskName',
+	width: 180,
+}, {
+	title: '34_tcp_connect_failure_rate',
+	dataIndex: 'tcp_connect_failure_rate',
+	key: 'tcp_connect_failure_rate',
+	width: 250,
+}, {
+	title: '35_tcp_connect_noresponse_rate',
+	dataIndex: 'tcp_connect_noresponse_rate',
+	key: 'tcp_connect_noresponse_rate',
+	width: 250,
+}, {
+	title: '36_tcp_retransmission_packet',
+	dataIndex: 'tcp_retransmission_packet',
+	key: 'tcp_retransmission_packet',
+	width: 180,
+}, {
+	title: '37_tcp_rst_packet',
+	dataIndex: 'tcp_rst_packet',
+	key: 'tcp_rst_packet',
+	width: 180,
+}, {
+	title: '37_tcp_segment_lost_packet',
+	dataIndex: 'tcp_segment_lost_packet',
+	key: 'tcp_segment_lost_packet',
+	width: 180,
+}, {
+	title: '39_tcp_shakehands_total_count',
+	dataIndex: 'tcp_shakehands_total_count',
+	key: 'tcp_shakehands_total_count',
+	width: 250,
+}, {
+	title: '40_tcp_syn_packet',
+	dataIndex: 'tcp_syn_packet',
+	key: 'tcp_syn_packet',
+	width: 180,
+}, {
+	title: '41_tcp_synack_packet',
+	dataIndex: 'tcp_synack_packet',
+	key: 'tcp_synack_packet',
+	width: 180,
+}, {
+	title: '42_tcp_transaction_avg_rtt',
+	dataIndex: 'tcp_transaction_avg_rtt',
+	key: 'tcp_transaction_avg_rtt',
+	width: 250,
+}, {
+	title: '43_tcp_transaction_no_response_rate',
+	dataIndex: 'tcp_transaction_no_response_rate',
+	key: 'tcp_transaction_no_response_rate',
+	width: 250,
+}, {
+	title: '44_tcp_transaction_response_rate',
+	dataIndex: 'tcp_transaction_response_rate',
+	key: 'tcp_transaction_response_rate',
+	width: 250,
+}, {
+	title: '45_tcp_transaction_worse_count',
+	dataIndex: 'tcp_transaction_worse_count',
+	key: 'tcp_transaction_worse_count',
+	width: 250,
+}, {
+	title: '46_tcp_transaction_worse_rate',
+	dataIndex: 'tcp_transaction_worse_rate',
+	key: 'tcp_transaction_worse_rate',
+	width: 250,
+}, {
+	title: '47_alive_flow_count',
+	dataIndex: 'alive_flow_count',
+	key: 'alive_flow_count',
+	width: 180,
+}, {
+	title: '48_total_bitps',
+	dataIndex: 'total_bitps',
+	key: 'total_bitps',
+	width: 180,
+}, {
+	title: '49_total_byte',
+	dataIndex: 'total_byte',
+	key: 'total_byte',
+	width: 180,
+}, {
+	title: '50_total_packet',
+	dataIndex: 'total_packet',
+	key: 'total_packet',
+	width: 180,
+}, {
+	title: '51_total_packet_lost_rate',
+	dataIndex: 'total_packet_lost_rate',
+	key: 'total_packet_lost_rate',
+	width: 200,
+}, {
+	title: '52_total_packet_retrans_rate',
+	dataIndex: 'total_packet_retrans_rate',
+	key: 'total_packet_retrans_rate',
+	width: 200,
+}, {
+	title: '53_uplink_bitps',
+	dataIndex: 'uplink_bitps',
+	key: 'uplink_bitps',
+	width: 180,
+}, {
+	title: '54_uplink_byte',
+	dataIndex: 'uplink_byte',
+	key: 'uplink_byte',
+	width: 180,
+}, {
+	title: '55_uplink_packet',
+	dataIndex: 'uplink_packet',
+	key: 'uplink_packet',
+	width: 180,
+}, {
+	title: '56_uplink_packet_lost_rate',
+	dataIndex: 'uplink_packet_lost_rate',
+	key: 'uplink_packet_lost_rate',
+	width: 250,
+}, {
+	title: '57_uplink_packet_retrans_rate',
+	dataIndex: 'uplink_packet_retrans_rate',
+	key: 'uplink_packet_retrans_rate',
+	width: 250,
+}, {
+	title: '58_uplink_tcp_retransmission_packet',
+	dataIndex: 'uplink_tcp_retransmission_packet',
+	key: 'uplink_tcp_retransmission_packet',
+	width: 250,
+}, {
+	title: '59_uplink_tcp_rst_packet',
+	dataIndex: 'uplink_tcp_rst_packet',
+	key: 'uplink_tcp_rst_packet',
+	width: 250,
+}, {
+	title: '60_uplink_tcp_segment_lost_packet',
+	dataIndex: 'uplink_tcp_segment_lost_packet',
+	key: 'uplink_tcp_segment_lost_packet',
+	width: 250,
+},
+]

@@ -1,0 +1,8 @@
+:global(.ant-form-horizontal section){
+	position: relative;
+	right:50px;
+}
+
+:global #maintanceModal .ant-empty-normal {
+    margin: 0px 0px;
+  }

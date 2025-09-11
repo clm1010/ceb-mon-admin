@@ -1,0 +1,43 @@
+.title{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    font-size: 4vw;
+    color: #eb2f96;
+}
+.showtime{
+    text-align: center;
+    font-size: 1.8vw;
+    color: #e72121;
+}
+/*
+ color: #eb2f96;     粉色
+ color: #e72121;
+ color: #f4f4f4;      白色
+ float: right;
+*/
+.downtime{
+    text-align: center;
+    font-size: 4vw;
+    color: #f5222d;
+    width:'100%';
+    margin-top: 10px
+}
+.follwotime{
+    font-size: 2vw; 
+    color: #e72121;
+    width:'100%';
+    margin-top: 10px;
+    float: right;
+}
+.mess{
+    margin-bottom: 10px;
+    margin-left: 25px;
+}
+.link{
+    font-size: 1.5vw;
+    color: #eb2f96;
+    position: relative;
+    top: -32px;
+}

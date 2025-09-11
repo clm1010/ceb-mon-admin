@@ -1,0 +1,10 @@
+.buttonRight{
+	position: relative;
+	left: 14px;
+	top: 12px;
+	z-index: 99;
+}
+.buttonRight button{
+	float: right;
+	margin-right: 5px;
+}

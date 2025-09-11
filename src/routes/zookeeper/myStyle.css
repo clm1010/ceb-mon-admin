@@ -1,0 +1,15 @@
+.countStyle{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    box-shadow: 1px;
+}
+img.question{
+    width: 17px;
+    height: 19px;
+    vertical-align: top;
+    margin: 0 5px;
+    cursor: pointer;
+    z-index: 1000;
+}

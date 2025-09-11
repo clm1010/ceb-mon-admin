@@ -1,0 +1,201 @@
+:global(.react-contextmenu) {
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 16px;
+    color: #373a3c;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    outline: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease !important;
+}
+
+:global(.react-contextmenu.react-contextmenu--visible) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+:global(.react-contextmenu-item) {
+    padding: 3px 20px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #373a3c;
+    text-align: inherit;
+    white-space: nowrap;
+    background: 0 0;
+    border: 0;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+:global(.react-contextmenu-item.react-contextmenu-item--active),
+:global(.react-contextmenu-item.react-contextmenu-item--selected) {
+    color: #fff;
+    background-color: #20a0ff;
+    border-color: #20a0ff;
+    text-decoration: none;
+}
+
+:global(.react-contextmenu-item.react-contextmenu-item--disabled),
+:global(.react-contextmenu-item.react-contextmenu-item--disabled:hover) {
+    color: #878a8c;
+    background-color: transparent;
+    border-color: rgba(0,0,0,.15);
+}
+
+:global(.react-contextmenu-item--divider) {
+    margin-bottom: 3px;
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    cursor: inherit;
+}
+:global(.react-contextmenu-item--divider:hover) {
+    background-color: transparent;
+    border-color: rgba(0,0,0,.15);
+}
+
+:global(.react-contextmenu-item.react-contextmenu-submenu) {
+	padding: 0;
+}
+
+:global(.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item) {
+}
+
+:global(.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item:after) {
+    content: "▶";
+    display: inline-block;
+    position: absolute;
+    right: 7px;
+}
+
+:global(.example-multiple-targets::after) {
+    content: attr(data-count);
+    display: block;
+}
+
+:global(.ant-table-small .ant-table-tbody > tr > td){
+	position: relative;
+}
+:global(.react-contextmenu-wrapper){
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: center;
+	line-height: 30px;
+
+}
+:global .content-inner4 .ant-table-thead .ant-table-row-hover td{
+	background-color: #ffffff;
+}
+:global .content-inner4 .ant-table-tbody tr.ant-table-row-hover td{
+	background-color: #ffffff;
+	color: #000;
+}
+:global .content-inner4 .ant-table-thead tr:hover td {
+	background-color: #ffffff;
+}
+:global .content-inner4 .ant-table-tbody tr:hover td{
+	background-color: #ffffff;
+	color: #000;
+}
+
+:global .rowHover{
+	width: 100%;
+	height: 410px;
+	float: left;
+	overflow: scroll;
+}
+
+:global .oel-ellipsis{
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+:global #oel-table .ant-table-tbody tr{
+	color: #FFFFFF;
+}
+:global .ack_red {
+	background: #C50000;
+	color: #fff;
+}
+:global .ack_black {
+	background: #000;
+	color: #fff;
+}
+:global .ack_yellow {
+	background: #CDCD00;
+	color: #fff;
+}
+:global .ack_orange {
+	background: #B56300;
+	color: #fff;
+}
+:global .ack_blue {
+	background: #4F94CD;
+	color: #fff;
+}
+:global .ack_green {
+	background: #008B00;
+	color: #fff;
+}
+:global .ack_purple {
+	background: #68228B;
+	color: #fff;
+}
+
+:global .black {
+	background: #000000;
+	color: #000;
+}
+
+:global .red {
+	background: #FF0000;
+	color: #000;
+}
+
+:global .yellow {
+	background: #ffff00;
+	color: #000;
+}
+:global .orange {
+	background: #FFB329;
+	color: #000;
+}
+:global .blue {
+	background: #63B8FF;
+	color: #000;
+}
+:global .green {
+	background: #00CD00;
+	color: #000;
+}
+:global .purple {
+	background: #B23AEE;
+	color: #000;
+}
+:global .black {
+	background: #dedede;
+	color: #000;
+}
+:global .oel-detail .ant-row {
+	height: 24px;
+}
+:global .content-treelist{
+  background-color: #FFFFFF;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+

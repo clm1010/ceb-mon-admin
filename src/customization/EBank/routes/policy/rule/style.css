@@ -1,0 +1,40 @@
+:global(.ant-btn-passError){
+	background-color: #f707b0;
+	color: #FFFFFF;
+}
+:global(.ant-btn-passOk){
+	background-color: #09b57e;
+	color: #FFFFFF;
+}
+.checkAll{
+	width: 100%;
+	height: 30px;
+	float: left;
+	line-height: 30px;
+}
+.checkOne label{
+	/*width: 180px;*/
+	height: 30px;
+	float: left;
+	line-height: 30px;
+}
+.checkPart,.tabPart{
+	width: 100%;
+	height: auto;
+	float: left;
+}
+.checkPart{
+	padding-bottom: 20px;
+	border-bottom: 2px solid #f4f4f4;
+}
+.tabPart{
+	margin-top: 20px;
+}
+.checkTitle{
+	width: 100%;
+	height: 20px;
+	float: left;
+	font-size: 14px;
+	line-height: 20px;
+	color: #000000;
+}

@@ -1,0 +1,11 @@
+:global .ellipsis{
+	width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0 auto;
+}
+
+:global .noShow{
+	display: none;
+}

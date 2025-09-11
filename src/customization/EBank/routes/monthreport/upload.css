@@ -1,0 +1,10 @@
+:global .but_down {
+  width: 180px;
+  height: 100px;
+  background-color: #fff;
+}
+
+:global .monthreport-uploader .ant-upload.ant-upload-select-picture-card {
+  background-color: #fff;
+  border: 0;
+}

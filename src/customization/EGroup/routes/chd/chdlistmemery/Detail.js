@@ -1,0 +1,499 @@
+import React from 'react'
+import { Link } from 'dva/router'
+import { Row, Col, Tooltip, Select, Table, Spin, Badge, DatePicker } from 'antd'
+import InstrumentChart from './InstrumentChart'
+import CpuLadderChart from './CpuLadderChart.js'
+import MemLadderChart from './MemLadderChart.js'
+import Alarm from '../alarm.js'
+import myStyle from '../Detail.less'
+import moment from 'moment'
+const { RangePicker } = DatePicker
+
+function detail ({
+	dispatch,
+	nodeDetails,
+	intfDetails,
+	instrumentChart,
+	cpuLineChart,
+	memLineChart,
+	responseLineChart,
+  	lossLineChart,
+	cpuTimescope,
+	memTimescope,
+	cpuGran,
+	memGran,
+	neUUID,
+	isClosed,
+	paginationIntf,
+	tableState,
+	loading,
+	cpuStar,
+	cpuEnd,
+	memStar,
+	memEnd,
+	alarmDataSource,
+	paginationAlarm,
+	branch,
+	uuid,
+}) {
+	cpuLineChart.loading = loading
+	memLineChart.loading = loading
+	const newPaginationIntf = {
+		showSizeChanger: true,
+		showQuickJumper: true,
+		showTotal: total => `共 ${total} 条`,
+		total: intfDetails.length,
+		pageSizeOptions: ['10', '20', '30', '40', '100', '200'],
+	}
+	const alarmProps = {
+		dataSource: alarmDataSource,
+		paginationAlarm,
+		uuid,
+		dispatch,
+		loading:loading.effects['chd/queryAlarm'],
+		path: 'chd',
+	}
+	let keys = new Date().getTime()
+	const cpuOnOk = (dates) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				cpuStar: moment(dates[0]).unix(),
+				cpuEnd: moment(dates[1]).unix(),
+			},
+		})
+		dispatch({
+			type: 'chd/queryCPU',
+			payload: {
+				cpuStar: moment(dates[0]).unix(),
+				cpuEnd: moment(dates[1]).unix(),
+				neUUID,
+				branch,
+			},
+		})
+	}
+	const memOnOk = (dates) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				memStar: moment(dates[0]).unix(),
+				memEnd: moment(dates[1]).unix(),
+			},
+		})
+		dispatch({
+			type: 'chd/queryMem',
+			payload: {
+				memStar: moment(dates[0]).unix(),
+				memEnd: moment(dates[1]).unix(),
+				neUUID,
+				branch,
+			},
+		})
+	}
+	//CPU使用率   时间范围
+	const handleCpuScopeChange = (value) => {
+			dispatch({
+				type: 'chd/showModal',
+				payload: {
+					cpuTimescope: value,
+					cpuStar: 0,
+					cpuEnd: 0,
+				},
+			})
+			dispatch({
+				type: 'chd/queryCPU',
+				payload: {
+					neUUID,
+					branch,
+				},
+			})
+	}
+	//CPU使用率   时间粒度
+	const handleCpuGranChange = (value) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				cpuGran: value,
+			},
+		})
+		dispatch({
+			type: 'chd/queryCPU',
+			payload: {
+				neUUID,
+				cpuTimescope,
+				cpuGran: value,
+				branch,
+			},
+		})
+	}
+	//内存使用率   时间粒度
+	const handleMemGranChange = (value) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				memGran: value,
+			},
+		})
+		dispatch({
+			type: 'chd/queryMem',
+			payload: {
+				neUUID,
+				memTimescope,
+				memGran: value,
+				branch,
+			},
+		})
+	}
+	//内存使用率  时间范围
+	const handleMemScopeChange = (value) => {
+			dispatch({
+				type: 'chd/showModal',
+				payload: {
+					memTimescope: value,
+					memStar: 0,
+					memEnd: 0,
+				},
+			})
+			dispatch({
+				type: 'chd/queryMem',
+				payload: {
+					neUUID,
+					branch,
+				},
+			})
+	}
+	const listValue = () => {
+		return (
+  <ul>
+    {
+        				intfDetails.map(number =>
+          <li><Tooltip placement="top" title={number.name}><Link to={`/chddetail/${number.id}`} className={myStyle.LinkStyle} target="_blank"><div>{number.name}</div><div>{number.partIn}</div><div>{number.partOut}</div></Link></Tooltip></li>)
+    				}
+  </ul>
+		)
+	}
+
+	const onPageChangeIntf = (page) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				tableState: true,
+			},
+		})
+      	dispatch({
+		    	type: 'chd/querys',
+			payload: {
+				page: page.current - 1,											//分页要减1，因为后端数据页数从0开始
+             	pageSize: page.pageSize,
+			},
+		})
+  	}
+
+	const columns = [
+    {
+	  	title: '端口名称',
+	  	dataIndex: 'portName',
+	  	key: 'portName',
+	  	render: (text, record) => {
+			return <div style={{ float: 'left' }}><Tooltip placement="top" title={text}><Link to={`/chddetail?q=${neUUID}+${record.portName}+${record.branchname}`} target="_blank">{text}</Link></Tooltip></div>
+		},
+    }, {
+	  	title: '端口状态',
+	  	dataIndex: 'portState',
+	  	key: 'status',
+	  	render: (text, record) => {
+	  		if (text === '1') {
+	  			return <Badge status="success" text="up" />
+	  		} else if (text === '2') {
+	  			return <Badge status="error" text="down" />
+	  		} else if (text === '3') {
+	  			return <Badge status="warning" text="shut down" />
+	  		}
+	  			return <Badge status="warning" text="-" />
+	  	},
+    }, {
+    	title: '端口描述',
+    	dataIndex: 'port',
+    }, {
+      	title: '入方向利用率',
+      	dataIndex: 'precentsIn',
+      	key: 'precentsIn',
+      	render: (text, record) => {
+      		if (record.precentsIn === undefined || record.precentsIn === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    }, {
+      	title: '入方向流量',
+      	dataIndex: 'inValue',
+      	key: 'inValue',
+      	sorter: (a, b) => a.inValue - b.inValue,
+      	render: (text, record) => {
+      		if (record.inValue === undefined || record.inValue === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    }, {
+      	title: '出方向利用率',
+      	dataIndex: 'precentsOut',
+      	key: 'precentsOut',
+      	render: (text, record) => {
+      		if (record.precentsOut === undefined || record.precentsOut === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    }, {
+      	title: '出方向流量',
+      	dataIndex: 'outValue',
+      	key: 'outValue',
+      	render: (text, record) => {
+      		if (record.outValue === undefined || record.outValue === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    },
+    {
+    	title: '输入丢包',
+      	dataIndex: 'inDis',
+      	key: 'inDis',
+      	render: (text, record) => {
+      		if (record.inDis === undefined || record.inDis === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    },
+    {
+    	title: '输出丢包',
+      	dataIndex: 'outDis',
+      	key: 'outDis',
+      	render: (text, record) => {
+      		if (record.outDis === undefined || record.outDis === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    },
+    {
+    	title: '输入错包',
+      	dataIndex: 'inErr',
+      	key: 'inErr',
+      	render: (text, record) => {
+      		if (record.inErr === undefined || record.inErr === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    },
+    {
+    	title: '输出错包',
+      	dataIndex: 'outErr',
+      	key: 'outErr',
+      	render: (text, record) => {
+      		if (record.outErr === undefined || record.outErr === '') {
+      			return '-'
+      		}
+      			return text
+      	},
+    },
+  	]
+
+	const searchKeyword = (value) => {
+		dispatch({
+			type: 'chd/showModal',
+			payload: {
+				keywordValue: value,
+			},
+		})
+		dispatch({
+			type: 'chd/querys',
+			payload: {
+				keywordValue: value,
+			},
+		})
+	}
+	return (
+  <Row gutter={6}>
+
+    <Col lg={7} md={7} sm={7} xs={7} style={{ backgroundColor: '#ffffff' }}>
+      <div style={{
+ width: '100%', height: '200px', overflow: 'hidden', marginBottom: '6px',
+}}
+      >
+        <div style={{ fontSize: '16px' }}>响应时间/丢包率</div>
+        <div className={myStyle.pan}><InstrumentChart {...instrumentChart} /></div>
+      </div>
+      <div style={{ width: '100%', height: '477px', marginBottom: '0px' }}>
+        <div style={{ fontSize: '16px' }}>设备详情</div>
+        <div className={myStyle.nodePart}>
+          <ul>
+            <li>
+              <Tooltip placement="top" title="应用编码"><span>应用编码</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.appname : ''}><span>{nodeDetails ? nodeDetails.appname : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="对象关键字"><span>对象关键字</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.keyword : ''}><span>{nodeDetails ? nodeDetails.keyword : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="branchName"><span>分支机构</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.mngtorg : ''}><span>{nodeDetails ? nodeDetails.mngtorg : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="设备名称"><span>设备名称</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.moname : ''}><span>{nodeDetails ? nodeDetails.moname : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="所属机构"><span>所属机构</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.org : ''}><span>{nodeDetails ? nodeDetails.org : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="代理"><span>代理</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.agent : ''}><span>{nodeDetails ? nodeDetails.agent : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="bizarea"><span>服务域</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.bizarea : ''}><span>{nodeDetails ? nodeDetails.bizarea : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="component"><span>component</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.component : ''}><span>{nodeDetails ? nodeDetails.component : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="componetype"><span>componetype</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.componetype : ''}><span>{nodeDetails ? nodeDetails.componetype : ''}</span></Tooltip>
+            </li>
+            <li>
+              <Tooltip placement="top" title="hostip"><span>主机IP</span></Tooltip>
+              <Tooltip placement="top" title={nodeDetails ? nodeDetails.hostip : ''}><span>{nodeDetails ? nodeDetails.hostip : ''}</span></Tooltip>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </Col>
+    <Col lg={17} md={17} sm={17} xs={17} className={myStyle.rightPart} style={{ backgroundColor: '#eef2f9' }}>
+      {/*
+				<div className="lines"></div>
+				*/}
+      <div style={{
+ width: '100%', height: '335px', marginBottom: '6px', backgroundColor: '#FFFFFF',
+}}
+      >
+        <div style={{ fontSize: '16px' }}>
+          <span>内存使用率</span>
+          <span style={{ float: 'right', fontSize: '12px' }} key={keys}>
+							&nbsp;&nbsp;粒度 :&nbsp;
+            <Select defaultValue={memGran} style={{ width: 90 }} size="small" onChange={handleMemGranChange}>
+              {/*<Select.Option value="year">年</Select.Option>*/}
+              <Select.Option value="month">月</Select.Option>
+              <Select.Option value="day">日</Select.Option>
+              <Select.Option value="hour">小时</Select.Option>
+              <Select.Option value="minute">分钟</Select.Option>
+            </Select>
+          </span>
+          <span style={{ float: 'right', fontSize: '12px', marginRight: '10px' }}>
+            <Select defaultValue={memTimescope.toString()} style={{ width: 110 }} size="small" onChange={handleMemScopeChange}>
+              <Select.Option value="2">两个小时</Select.Option>
+              <Select.Option value="24">一天之内</Select.Option>
+              <Select.Option value="48">两天之内</Select.Option>
+              <Select.Option value="120">五天之内</Select.Option>
+              <Select.Option value="240">十天之内</Select.Option>
+              <Select.Option value="360">十五天之内</Select.Option>
+              <Select.Option value="720">三十天之内</Select.Option>
+              <Select.Option value="1440">两个月之内</Select.Option>
+              {/*<Select.Option value="2160">三个月之内</Select.Option>*/}
+              {/*<Select.Option value="4320">半年之内</Select.Option>*/}
+              {/*<Select.Option value="8760">一年之内</Select.Option>*/}
+            </Select>
+          </span>
+          <span style={{ float: 'right', fontSize: '12px', marginRight: '10px' }}>
+							&nbsp;&nbsp;范围 :&nbsp;
+            <RangePicker onOk={memOnOk} defaultValue={[moment(memStar), moment(memEnd)]} showTime={{ format: 'HH:mm:ss' }} size="small" format="YYYY-MM-DD HH:mm:ss" />
+          </span>
+        </div>
+        <div><MemLadderChart {...memLineChart} /></div>
+      </div>
+
+      <div style={{
+ width: '100%', height: '335px', marginBottom: '6px', backgroundColor: '#FFFFFF',
+}}
+      >
+        <div style={{ fontSize: '16px' }}>
+          <span>CPU使用率</span>
+          <span style={{ float: 'right', fontSize: '12px' }} key={keys}>
+								&nbsp;&nbsp;粒度 :&nbsp;
+            <Select defaultValue={cpuGran} style={{ width: 90 }} size="small" onChange={handleCpuGranChange}>
+              {/*<Select.Option value="year">年</Select.Option>*/}
+              <Select.Option value="month">月</Select.Option>
+              <Select.Option value="day">日</Select.Option>
+              <Select.Option value="hour">小时</Select.Option>
+              <Select.Option value="minute">分钟</Select.Option>
+            </Select>
+          </span>
+          <span style={{ float: 'right', fontSize: '12px', marginRight: '10px' }}>
+            <Select defaultValue={cpuTimescope.toString()} style={{ width: 110 }} size="small" onChange={handleCpuScopeChange}>
+              <Select.Option value="2">两个小时</Select.Option>
+              <Select.Option value="24">一天之内</Select.Option>
+              <Select.Option value="48">两天之内</Select.Option>
+              <Select.Option value="120">五天之内</Select.Option>
+              <Select.Option value="240">十天之内</Select.Option>
+              <Select.Option value="360">十五天之内</Select.Option>
+              <Select.Option value="720">三十天之内</Select.Option>
+              <Select.Option value="1440">两个月之内</Select.Option>
+              {/*<Select.Option value="2160">三个月之内</Select.Option>*/}
+              {/*<Select.Option value="4320">半年之内</Select.Option>*/}
+              {/*<Select.Option value="8760">一年之内</Select.Option>*/}
+            </Select>
+          </span>
+          <span style={{ float: 'right', fontSize: '12px', marginRight: '10px' }}>
+							&nbsp;&nbsp;范围 :&nbsp;
+            <RangePicker onOk={cpuOnOk} defaultValue={[moment(cpuStar), moment(cpuEnd)]} showTime={{ format: 'HH:mm:ss' }} size="small" format="YYYY-MM-DD HH:mm:ss" />
+          </span>
+        </div>
+        <div><CpuLadderChart {...cpuLineChart} /></div>
+      </div>
+    </Col>
+    {/*
+			<Col lg={24} md={24} sm={24} xs={24} style={{backgroundColor: '#ffffff',position: 'relative',marginTop: 10}}>
+    				<div className={myStyle.linkPart}>
+    					<div className={myStyle.linkTitle}>对应接口</div>
+    					<div className={myStyle.linkTop}>
+    						<div>端口</div>
+    						<div>入方向利用率(流量)</div>
+    						<div>出方向利用率(流量)</div>
+    					</div>
+    					<div className={myStyle.linkDetails}>
+    						{listValue()}
+    					</div>
+    				</div>
+    			</Col>
+    			*/}
+    <Col lg={24} md={24} sm={24} xs={24} style={{ backgroundColor: '#ffffff', position: 'relative' }}>
+      <Spin spinning={tableState}>
+        <div className={myStyle.intfTable} style={{ backgroundColor: '#FFFFFF' }}>
+          <div className={myStyle.intfTableMain}>
+            <Table
+              bordered
+              columns={columns}
+              dataSource={intfDetails}
+              pagination={newPaginationIntf}
+              loading={loading.effects['chd/querys']}
+              simple
+              size="small"
+            />
+          </div>
+        </div>
+      </Spin>
+    </Col>
+    <Col lg={24} md={24} sm={24} xs={24} style={{ backgroundColor: '#ffffff', position: 'relative' }}>
+      <Alarm {...alarmProps} />
+    </Col>
+  </Row>
+	)
+}
+
+export default detail

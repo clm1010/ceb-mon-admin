@@ -1,0 +1,352 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: rgb(71, 71, 71);
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.container{
+    margin: 10px auto;
+    width: 100%;
+    overflow: hidden;
+}
+/* .clr:after,.clr:before{
+    content: '';
+    display: block;
+    clear: both;
+} */
+/* 左边导航 */
+nav{
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    float: left;
+    border-right: 1px solid rgb(187, 187, 187);
+    padding: 15px;
+    box-sizing: border-box;
+}
+nav h3 a.active{
+    color:#606;
+}
+.nav_ul li{
+    padding: 5px 15px;
+    cursor: pointer;
+}
+.nav_ul li{
+    font-size: 14px;
+}
+.nav_ul li.nav_title{
+    padding-left: 6px;
+}
+.nav_ul li h4{
+    font-size: 16px;
+}
+nav .nav_ul li h4{
+    padding: 8px 0;
+}
+.nav_ul li:hover{
+    color:#606;
+    background-color: rgb(240, 240, 240);
+}
+.nav_ul li.active{
+    color:#606;
+}
+/* 内容区 */
+.container .main{
+    float: right;
+    width: calc(100% - 250px);
+    padding: 15px;
+    box-sizing: border-box;
+    /* font-size: 14px; */
+}
+.main ul.logicview_ul li{
+    line-height: 30px;
+}
+.main .logicview{
+    margin: 20px 0;
+  transition: all 0.4s ;
+}
+.main h2.mainTitle{
+    margin: 25px 0 15px 0;
+}
+.logicview img{
+    margin: 15px 50px;
+}
+.logicview ul.logicview_ul{
+    margin: 5px 50px;
+}
+.main ul.main_ul{
+    width: 100%;
+}
+.main .main_ul>li{
+    margin: 35px 5px;
+}
+.main .main_ul li h3.main_title{
+    /* font-weight: 400; */
+    font-size: 23px;
+}
+/* 监控工具管理 */
+div.content{
+    max-width: 100%;
+}
+div.content h4.name {
+    color: #fff;
+    background: #6d426d;
+    box-shadow: 0 .25em .5em #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    margin: 1.5em 0 0.5em;
+    padding: .75em 0 .75em 10px;
+}
+div.content div>img.mainimg{
+    width: 85%;    
+    padding-left: 1em;
+}
+div.content p{
+    line-height: 50px;
+}
+table {
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    width: 98%;
+    font-size: 14px;
+    margin: 1em;
+    box-sizing: border-box;
+}
+table img{
+    /* max-width: 20%; */
+}
+table img.del2{
+    width: 100px;
+}
+td, th {
+    margin: 0px;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+    display: table-cell;
+    border: 1px solid #ddd;
+    max-width:550px;
+}
+thead tr, thead tr {
+    background-color: #fff;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+.main p.bold{
+    font-weight: 500;
+    color: #606;
+}
+.main img{
+    vertical-align: bottom;
+}
+ul.describe{
+    padding-left: 1em;
+    box-sizing: border-box;
+}
+ul.describe li{
+    line-height: 40px;
+}
+ul.describe li img{
+    padding-left: 5px;
+}
+ul.describe img.describe1{
+    width: 10%;
+    padding-right: 20px;
+}
+ul.describe img.describe2{
+    width: 70%;
+    padding-left: 20px;
+}
+
+ul.describe img.target1{
+    width: 26%;
+    padding-right: 20px;
+}
+ul.describe img.target2{
+    width: 53%;
+    padding-left: 20px;
+}
+ul.group li{
+    padding: 5px 20px;
+}
+ul.group li img,ul.describe li img{
+    width: 35px;
+}
+ul.describe li img.operateImg{
+    width: 30%;
+}
+img.MOType{
+    width: 30%;
+    padding-bottom: 10px;
+}
+
+
+.name, .signature {
+    font-family: Consolas, Monaco, 'Andale Mono', monospace
+  }
+.type-signature {
+    color: #CA79CA
+  }
+.signature {
+    color: #fc83ff;
+}
+.details span{
+    border-left: 2px solid #DDD;
+    padding: 0px 100px 0px 5px;
+}
+.details a{
+    border-bottom: 1px solid #ddd;
+    color: #606;
+    font-size: 14px;
+}
+
+
+
+
+
+/* .help{
+    position: fixed;
+    top: 100px;
+    right: 100px;
+    border: 1px solid #666;
+    padding: 10px 0;
+    width: 100px;
+    height: 105px;
+    overflow: hidden;
+}
+.help img{
+    width: 100%;
+}
+.help .bang{
+    writing-mode: vertical-rl;
+    font-size: 25px;
+    margin: 18px auto;
+}
+.help:hover img{
+    transition: all 2s;
+    transform: translateY(-100px);
+}
+.help:hover div.bang{
+    transition: all 2s;
+    transform: translateY(-100px);
+} */
+
+/* .help{
+    position: fixed;
+    top: 10px;
+    right: 200px;
+    perspective: 600px;
+}
+.helps{
+    position: relative;
+} */
+/* .helps:hover{
+    transition: all 2s inherit;
+    transform: translateY(180deg);
+} */
+/* .help img{
+    width: 150px;
+    border: 1px solid red;
+    position: absolute;
+    transition: all 1s ease 0s;
+} */
+/* .helps div{
+    width: 150px;
+    height: 200px;
+    position: absolute;
+    background: #ddd;
+    bottom: 0px;
+} */
+/* .helps img:nth-child(1) {
+    transform: translateY(50%);
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+}
+
+.helps img:nth-child(2) {
+    transform: none;
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+}
+
+.helps:hover img:nth-child(1) {
+    transform: none;
+}
+
+.helps:hover img:nth-child(2) {
+    transform: translateY(-50%);
+} */
+/* .helps img:nth-child(1) {
+    transform: rotateY(180deg);
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+}
+
+.helps img:nth-child(2) {
+    transform: none;
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+}
+
+.helps:hover img:nth-child(1) {
+    transform: none;
+}
+
+.helps:hover img:nth-child(2) {
+    transform: rotateY(-180deg);
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .main .main_ul1>li:nth-child(5){
+    height: 800px;
+    padding: 15px;
+    background-color: rgb(226, 226, 226);
+}
+.main .main_ul1>li:nth-child(2){
+    height: 500px;
+    padding: 15px;
+    background-color: rgb(247, 255, 209);
+}
+.main .main_ul1>li:nth-child(3){
+    height: 900px;
+    padding: 15px;
+    background-color: rgb(255, 209, 209);
+}
+.main .main_ul1>li:nth-child(4){
+    height: 1000px;
+    padding: 15px;
+    background-color: rgb(220, 255, 209);
+} */
+

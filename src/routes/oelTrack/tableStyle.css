@@ -1,0 +1,27 @@
+
+:global .tableStyle .ant-table-thead{
+	font-size:1.2vw;
+}
+:global .tableStyle .ant-table-tbody {
+	color: #f4f4f4;
+	font-size:1.2vw;
+}
+:global .tableStyle .ant-table-thead > tr > th {
+	color: #f4f4f4;
+}
+:global .tableStyle .ant-table-tbody tr.ant-table-row-hover td{
+	background-color: #ffffff;
+	color: #000;
+}
+:global .tableStyle .ant-table-tbody tr:hover td{
+	background-color: #ffffff;
+	color: #000;
+}
+
+:global .radioSytpe .ant-radio-inner{
+	border-color:#000c17;
+}
+
+:global .tableStyle .ant-table-placeholder{
+	background: #000c17;
+}

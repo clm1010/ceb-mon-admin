@@ -1,0 +1,35 @@
+:global .ant-carousel .slick-slide {
+  text-align: center;
+  height: 400px;
+  line-height: 400px;
+  background: #fff;
+  overflow: hidden;
+}
+
+:global .ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+:global .avatar-uploader>.ant-upload {
+  width: 200px;
+  height: 200px;
+}
+
+:global .but_down {
+  width: 200px;
+  height: 200px;
+  background-color: #fafafa;
+}
+
+:global .BranchBg .ant-card-bordered {
+  background-color: #e4e6f9;
+  border-radius: 10px;
+}
+
+:global .avatar-uploader .ant-upload.ant-upload-select-picture-card > .ant-upload{
+  padding: 0
+}
+
+:global .img {
+  filter: grayscale(100%)
+}

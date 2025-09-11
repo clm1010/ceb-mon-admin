@@ -1,0 +1,71 @@
+.bgeffect {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #808080;
+
+    /* Firefox */
+    background-image:
+        -moz-radial-gradient(circle, #FFFFFF 2px, rgba(255,255,255,.5) 4px, transparent 15px),
+        -moz-radial-gradient(circle, #FFFFFF 1px, rgba(224,255,255,.2) 3px, transparent 20px),
+        -moz-radial-gradient(circle, rgba(255,255,255,.9) 1px, rgba(251,255,186,.3) 2px, transparent 10px),
+        -moz-radial-gradient(circle, rgba(255,255,255,.4), rgba(253,255,219,.2) 1px, transparent 15px);
+
+    /* Webkit */
+    background-image:
+        -webkit-gradient(radial, 50% 50%, 2, 50% 50%, 15, from(white), color-stop(0.1, rgba(255,255,255,.5)), to(transparent)),
+        -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 20, from(white), color-stop(0.1, rgba(224,255,255,.2)), to(transparent)),
+        -webkit-gradient(radial, 50% 50%, 1, 50% 50%, 10, from(rgba(255,255,255,.9)), color-stop(0.05, rgba(251,255,186,.3)), to(transparent)),
+        -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 15, from(rgba(255,255,255,.4)), color-stop(0.03, rgba(253,255,219,.2)), to(transparent));
+
+    /* Background Attributes */
+    background-size: 550px 550px, 350px 350px, 250px 270px, 220px 200px;
+    background-position: 0 0, 30px 60px, 130px 270px, 70px 150px;
+
+    /* Animation */
+    animation-name: movement;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    /* Firefox */
+    -moz-animation-name: movement;
+    -moz-animation-duration: 5s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    /* Webkit */
+    -webkit-animation-name: movement;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+@keyframes movement
+{
+    from {
+            background-position: 0 0, 30px 60px, 130px 270px, 70px 150px;
+    }
+    to {
+            background-position: -550px 0, -320px 60px, -120px 270px, -150px 150px;
+    }
+}
+@-moz-keyframes movement
+{
+    from {
+            background-position: 0 0, 30px 60px, 130px 270px, 70px 150px;
+    }
+    to {
+            background-position: -550px 0, -320px 60px, -120px 270px, -150px 150px;
+    }
+}
+@-webkit-keyframes movement
+{
+    from {
+            background-position: 0 0, 30px 60px, 130px 270px, 70px 150px;
+    }
+    to {
+            background-position: -550px 0, -320px 60px, -120px 270px, -150px 150px;
+    }
+}

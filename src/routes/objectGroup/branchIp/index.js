@@ -1,0 +1,177 @@
+import React from 'react'
+import { routerRedux } from 'dva/router'
+import { connect } from 'dva'
+import Filter from '../../../components/Filter/Filter'
+import FilterSchema from './FilterSchema'
+import List from './List'
+import ButtonZone from './ButtonZone'
+import Modal from './Modal'
+import ImportResultModal from '../../objectMO/ImportByExcel/ImportResultModal'
+import ManagedModal from './managedModal'
+import moTree from '../../../utils/moTree/moTree'
+import PolicyListModal from '../utils/policyListComp'
+import queryString from "query-string";
+//@@@
+const branchIp = ({
+ location, dispatch, branchIp, loading, app, policyList, appSelect,
+}) => {
+	const {
+		q,
+		list,
+		currentItem,
+		modalVisible,
+		modalType,
+		pagination,
+		batchDelete,
+		batchSync,
+		selectedRows,
+		alertType,
+		alertMessage,
+		moImportFileList,
+		showUploadList,
+		moImportResultVisible,
+		moImportResultdataSource,
+		moImportResultType,
+		managedModalVisible,
+		manageState,
+		managedType,
+		managedData,
+		pageChange,
+		c1,
+		AppOption,
+		appCode,
+		appCategorlist,
+		FScloud,
+		optionSelectAppName,
+	} = branchIp					//@@@//这里把入参做了拆分，后面代码可以直接调用拆分的变量
+
+	const {
+		user,
+	} = app
+
+	const modalProps = {	//这里定义的是弹出窗口要绑定的数据源
+		loading,
+		dispatch,
+		item: currentItem,		//要展示在弹出窗口的选中对象
+		modalType, //弹出窗口的类型是'创建'还是'编辑'
+		modalVisible, //弹出窗口的可见性是true还是false
+		modalName: '网点IP',		//@@@
+		alertType,
+		alertMessage,
+		c1,
+		AppOption,
+	   	appCode,
+		appSelect,
+		appCategorlist,
+		FScloud,
+	}
+
+  const filterProps = { //这里定义的是查询页面要绑定的数据源
+    //expand : false,
+    filterSchema: FilterSchema,
+    q,
+    moTypeTree: moTree,													//把mo类型树形结构数据传给FILTER展现
+    dispatch,
+	optionSelectAppName,
+	modalName:'branchIp',
+    onSearch (q) {
+    	const { search, pathname } = location
+		const query = queryString.parse(search);
+		query.q = q
+		query.page = 0
+		const stringified = queryString.stringify(query)
+	    dispatch(routerRedux.push({ 
+	    	pathname,
+				search: stringified,
+				query:query,
+	    }))
+    },
+  }
+
+  	const {
+		modalPolicyVisible,
+		moPolicyInfo,
+		openPolicyType,
+		policyInstanceId,
+		paginationInfs,
+	} = policyList
+
+	const policyListProps = {
+		dispatch,
+		loading,
+	  modalPolicyVisible,
+		moPolicyInfo,
+		openPolicyType,
+		policyInstanceId,
+		pagination: paginationInfs,
+		onPageChange (page) {
+			dispatch({
+				type: 'policyList/queryPolicy',
+				payload: {
+					current: page.current - 1,
+					page: page.current - 1,
+					pageSize: page.pageSize,
+				},
+			})
+		},
+ }
+
+  const listProps = { //这里定义的是表格对应的数据源与配置
+    dispatch,
+    dataSource: list,
+    loading: loading.effects['branchIp/query'],
+    pagination,
+    batchDelete,
+    selectedRows,
+    key: pageChange,
+    q,
+  }
+
+  const buttonZoneProps = { //这里定义的按钮区域需要的配置
+    dispatch,
+    location,
+    batchDelete,
+    selectedRows,
+    user,
+    moImportFileList,
+	showUploadList,
+	moImportResultVisible,
+	moImportResultdataSource,
+	moImportResultType,
+  }
+
+  const importResultModalProps = {
+  	dispatch,
+  	visible: moImportResultVisible,
+  	type: moImportResultType,
+  	dataSource: moImportResultdataSource,
+  	queryPath: 'branchIp/setState',
+  }
+
+  const managedModalProps = {
+  		dispatch,
+  		visible: managedModalVisible,
+  		manageState,
+  		choosedRows: selectedRows,
+  		managedType,
+  		managedData,
+  }
+
+  let btZone = <ButtonZone {...buttonZoneProps} />
+  return (
+    <div className="content-inner" id="area">
+      <Filter {...filterProps} buttonZone={btZone} />
+      <List {...listProps} />
+      <Modal {...modalProps} />
+      <PolicyListModal {...policyListProps} />
+      <ImportResultModal {...importResultModalProps} />
+      <ManagedModal {...managedModalProps} />
+    </div>
+  )
+}
+
+export default connect(({
+ branchIp, policyList, appSelect, loading, app,
+}) => ({
+ branchIp, app, policyList, appSelect, loading,
+}))(branchIp) //@@@

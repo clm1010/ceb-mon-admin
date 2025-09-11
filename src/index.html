@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link type="image/x-icon" rel="icon" href="/static/ceb.f3e0e220.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <!-- <link rel="stylesheet" href="/index.css" /> -->
+  <title ></title>
+  <!--[if lte IE 10]>
+      <script
+        src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,media-match/2.0.2/media.match.min.js"></script>
+  <![endif]-->
+  <style>
+  	.black_overlay{
+  		font-size: 20px;
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .80;
+    filter: alpha(opacity=80);
+		}
+  </style>
+	
+
+  <script>
+	  
+
+  		function ShowDiv(show_div, bg_div) {
+        document.getElementById(show_div).style.display = 'block';
+        document.getElementById(bg_div).style.display = 'block';
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+        // bgdiv.style.height = $(document).height();
+        $("#" + bg_div).height($(document).height());
+    };
+  	function bro() {
+  		/*
+			var userAgent = window.navigator.userAgent; //包含以下属性中所有或一部分的字符串：appCodeName,appName,appVersion,language,platform
+			let ChromeStatus = userAgent.indexOf('Chrome');
+			let IEStatus = parseInt(userAgent.toLowerCase().match(/rv:([\d.]+)\) like gecko/)[1].slice(0,2));
+			//Chrome浏览器
+			if (userAgent.indexOf('Chrome') < 0 || parseInt(userAgent.toLowerCase().match(/rv:([\d.]+)\) like gecko/)[1].slice(0,2)) < 11) {
+				ShowDiv('root','bg_root');
+			}
+			*/
+			var userAgent = navigator.userAgent,
+				rMsie = /(msie\s|trident.*rv:)([\w.]+)/,
+				rFirefox = /(firefox)\/([\w.]+)/,
+				rOpera = /(opera).+version\/([\w.]+)/,
+				rChrome = /(chrome)\/([\w.]+)/,
+				rSafari = /version\/([\w.]+).*(safari)/;
+			var browser;
+			var version;
+			var ua = userAgent.toLowerCase();
+
+			function uaMatch(ua) {
+				var match = rMsie.exec(ua);
+				if(match != null) {
+					return {
+						browser: "IE",
+						version: match[2] || "0"
+					};
+				}
+				var match = rFirefox.exec(ua);
+				if(match != null) {
+					return {
+						browser: match[1] || "",
+						version: match[2] || "0"
+					};
+				}
+				var match = rOpera.exec(ua);
+				if(match != null) {
+					return {
+						browser: match[1] || "",
+						version: match[2] || "0"
+					};
+				}
+				var match = rChrome.exec(ua);
+				if(match != null) {
+					return {
+						browser: match[1] || "",
+						version: match[2] || "0"
+					};
+				}
+				var match = rSafari.exec(ua);
+				if(match != null) {
+					return {
+						browser: match[2] || "",
+						version: match[1] || "0"
+					};
+				}
+				if(match != null) {
+					return {
+						browser: "",
+						version: "0"
+					};
+				}
+			}
+			var browserMatch = uaMatch(userAgent.toLowerCase());
+			if(browserMatch.browser) {
+				browser = browserMatch.browser;
+				version = browserMatch.version;
+			}
+			if(browser !== 'chrome' && browser !== 'IE'){
+				ShowDiv('root','bg_root');
+			}else if(browser === 'IE' && parseInt(version.slice(0,2))<10){
+				ShowDiv('root','bg_root');
+			}
+
+		}
+  		function downloadFile(url) {
+        try{
+            var elemIF = document.createElement("iframe");
+            elemIF.src = url;
+            elemIF.style.display = "none";
+            document.body.appendChild(elemIF);
+        }catch(e){
+
+        }
+	}
+	
+	
+  </script>
+</head>
+
+<body onload="bro();">
+  <div id="root"></div>
+  <div id="bg_root" class="black_overlay">本系统不支持该浏览器，请<a href = "http://10.218.36.19:80/static2/Chrome_65.0.3325.181.exe" download>点击下载Chrome浏览器</a></div>
+  <!--<canvas id="canvas" style="background:#111"></canvas>-->
+  <!-- <script src="/index.js"></script> -->
+</body>
+<!--
+<script type="text/javascript">
+
+	window.onload = function(){
+		//获取画布对象
+		var canvas = document.getElementById("canvas");
+		//获取画布的上下文
+		var context =canvas.getContext("2d");
+		//获取浏览器屏幕的宽度和高度
+		var W = window.innerWidth;
+		var H = window.innerHeight;
+		//设置canvas的宽度和高度
+		canvas.width = W;
+		canvas.height = H;
+		//每个文字的字体大小
+		var fontSize = 16;
+		//计算列
+		var colunms = Math.floor(W /fontSize);
+		//记录每列文字的y轴坐标
+		var drops = [];
+		//给每一个文字初始化一个起始点的位置
+		for(var i=0;i<colunms;i++){
+			drops.push(0);
+		}
+
+		//运动的文字
+		var str ="010101010101010101";
+		//4:fillText(str,x,y);原理就是去更改y的坐标位置
+		//绘画的函数
+		function draw(){
+			context.fillStyle = "rgba(0,0,0,0.05)";
+			context.fillRect(0,0,W,H);
+			//给字体设置样式
+			context.font = "700 "+fontSize+"px  微软雅黑";
+			//给字体添加颜色
+			context.fillStyle ="#FF0000";//可以rgb,hsl, 标准色，十六进制颜色
+			//写入画布中
+			for(var i=0;i<colunms;i++){
+				var index = Math.floor(Math.random() * str.length);
+				var x = i*fontSize;
+				var y = drops[i] *fontSize;
+				context.fillText(str[index],x,y);
+				//如果要改变时间，肯定就是改变每次他的起点
+				if(y >= canvas.height && Math.random() > 0.99){
+					drops[i] = 0;
+				}
+				drops[i]++;
+			}
+		};
+
+		function randColor(){
+			var r = Math.floor(Math.random() * 256);
+			var g = Math.floor(Math.random() * 256);
+			var b = Math.floor(Math.random() * 256);
+			return "rgb("+r+","+g+","+b+")";
+		}
+
+		draw();
+		setInterval(draw,50);
+	};
+
+</script>
+	-->
+</html>

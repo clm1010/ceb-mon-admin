@@ -1,0 +1,144 @@
+/**
+ * @module 监控配置/非网络监控实例 
+ * @description 
+ *
+ * 此页面用于查看非网络监控实例及下发。
+ * 
+ * ## 下发操作
+ * ##### 下发
+ * 将非网络监控实例进行下发。
+ * 
+ */
+import React from 'react'
+import { connect } from 'dva'
+import Filter from '../../../../components/Filter/Filter'
+import FilterSchema from './FilterSchema'
+import List from './List'
+import { routerRedux } from 'dva/router'
+import Modalmo from './Modalmo'
+import Modalrule from './Modalrule'
+import Modaltool from './Modaltool'
+import Modaltemp from './Modaltemp'
+import ButtonZone from './ButtonZone'
+import fenhang from '../../../../utils/fenhang'
+import treeDataApp from '../../../../utils/treeDataApp'
+import queryString from "query-string";
+
+const notNetDown = ({
+    location, dispatch, loading, notNetDown,
+}) => {
+    const {list,choosedRows,batchDelete,pagination, modalMOVisible, modalToolVisible, modalRuleVisible, modalTempVisible,  currentItem,tabstate, typeValue, stdInfoVal ,q,oper,onIssueForbid} = notNetDown	//这里把入参做了拆分，后面代码可以直接调用拆分的变量
+    const listProps = { //这里定义的是查询页面要绑定的数据源
+            dispatch,
+            dataSource: list,
+            loading: loading.effects['mo/query'],
+            pagination,
+            choosedRows,
+            q,
+          }
+        const filterProps = { //这里定义的是查询页面要绑定的数据源
+            expand: false,
+            filterSchema: FilterSchema,
+            q : q,
+            dispatch,
+            onSearch (q) {
+              const { search, pathname } = location
+              const query = queryString.parse(search);
+                dispatch(routerRedux.push({
+                    pathname,
+                    search: search,
+                  query: {
+                      ...query,
+                    page: 0,
+                    q,
+                  },
+                }))
+            },
+            queryPreProcess (data) {
+              if (data.mo_name !== undefined) {
+              data['mo.name'] = data.mo_name
+              delete data.mo_name
+            }
+            if (data.mo_discoveryIP !== undefined) {
+              data['mo.discoveryIP'] = data.mo_discoveryIP
+              delete data.mo_discoveryIP
+            }
+            if (data.rule_name !== undefined) {
+              data['rule.name'] = data.rule_name
+              delete data.rule_name
+            }
+            if (data.toolInst.toolType !== undefined) {
+              data['toolInst.toolType'] = data.toolInst.toolType
+              delete data.toolInst.toolType
+            }
+            if (data.toolInst_name !== undefined) {
+              data['toolInst.name'] = data.toolInst_name
+              delete data.toolInst_name
+            }
+            if (data.template_name !== undefined) {
+              data['policy.template.name'] = data.template_name
+              delete data.template_name
+            }
+            if (data.policy_template_monitorParams_indicator_name !== undefined) {
+              data['policy.template.monitorParams.indicator.name'] = data.policy_template_monitorParams_indicator_name
+              delete data.policy_template_monitorParams_indicator_name
+            }
+            return data
+            },
+          }
+        
+
+    const modalMoProps = {	//这里定义的是弹出窗口要绑定的数据源
+        loading,
+        dispatch,
+        item: currentItem,		//要展示在弹出窗口的选中对象
+        modalVisible: modalMOVisible, //弹出窗口的可见性是true还是false
+        modalName: 'MO对象详情',		//@@@
+    }
+
+    const modalRuleProps = {									//这里定义的是弹出窗口要绑定的数据源
+        dispatch,
+        citem: currentItem,		//要展示在弹出窗口的选中对象
+        visible: modalRuleVisible,									//弹出窗口的可见性是true还是false
+    }
+
+    const modalToolProps = {									//这里定义的是弹出窗口要绑定的数据源
+        dispatch,
+        item: currentItem,		//要展示在弹出窗口的选中对象
+        visible: modalToolVisible,									//弹出窗口的可见性是true还是false
+    }
+
+    const modalTempProps = { //这里定义的是弹出窗口要绑定的数据源
+        fenhang,
+        dispatch,
+        item: currentItem, //要展示在弹出窗口的选中对象
+        visible: modalTempVisible, //弹出窗口的可见性是true还是false
+        tabstate,
+        typeValue,
+        stdInfoVal,
+        treeDataApp,
+    }
+
+	const buttonZoneProps = {
+        dispatch,
+        batchDelete,
+        choosedRows,
+        oper,
+        onIssueForbid,
+      }
+      let buton = <ButtonZone {...buttonZoneProps} />
+    return (
+        <div className="content-inner">
+            <Filter {...filterProps} buttonZone={buton} />
+            <List {...listProps} />
+            <Modalmo {...modalMoProps} />
+            <Modalrule {...modalRuleProps} />
+            <Modaltool {...modalToolProps} />
+            <Modaltemp {...modalTempProps} />
+        </div>
+    )
+}
+
+//通过connect把model的数据注入到这个页面中来
+//loading为自带对象，标记页面的加载状态
+export default connect(({ notNetDown, loading }) => ({ notNetDown, loading: loading }))(notNetDown)

@@ -1,0 +1,15 @@
+.custom-card {
+  padding: 100px 16px 10px 10px;
+}
+.contentLeft{
+	height: 100vh;
+	position: absolute;
+	left: 0;
+	overflow: scroll;
+}
+.contentRight{
+	height: 100vh;
+	position: absolute;
+	right: 0;
+	overflow: scroll;
+}

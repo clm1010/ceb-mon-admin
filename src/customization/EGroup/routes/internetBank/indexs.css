@@ -1,0 +1,39 @@
+.card {
+  background:rgba(255, 255, 255,0.08);
+  min-height: 47px;
+  padding-top: 12px;
+}
+
+.pannl {
+  background-color: #082040;
+}
+
+.InterfaceStyle,.InterfaceStyle ul,.InterfaceStyleOther,.InterfaceStyleOther ul{
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.InterfaceStyle ul li,.InterfaceStyleOther ul li{
+  width: 100%;
+  height: auto;
+  float: left;
+  /*border-bottom: 1px dashed #e6e6e6;*/
+  font-size: 12px;
+}
+
+.InterfaceStyle ul li p,.InterfaceStyleOther ul li p{
+  float: left;
+  width: 33%;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  height: auto;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cardHeight{
+  min-height: 340px;
+}
+

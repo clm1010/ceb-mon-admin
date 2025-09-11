@@ -1,0 +1,312 @@
+const conf = [
+  {
+    name: '加密系统',
+    coordinate: '应用系统-加密系统',
+    uuid: '25ef3a93-cb66-4cab-887a-8216ea0eaf6d',
+    postion: [7, 0],
+  },
+  {
+    name: '核心系统',
+    coordinate: '应用系统-核心系统',
+    uuid: '3312a325-9891-44fe-947e-24ecf369b15a',
+    postion: [7, 1],
+  },
+  {
+    name: '总前系统/EDSP',	// 告警分布图按钮上显示的文字
+    coordinate: '应用系统-总前系统/EDSP',	// 业务坐标信息，不参与代码逻辑
+    uuid: '47868f2c-b09d-4b7e-bb22-683723c93b68',	// 关联的oel过滤器uuid
+    postion: [7, 2],	// 告警分布图坐标轴上的x，y轴信息。从0开始
+  },
+  {
+    name: '重要三方(网联/代理卡组织/接口平台/超网/二代支付)',
+    coordinate: '应用系统-重要三方(网联/代理卡组织/接口平台/超网/二代支付)',
+    uuid: '2fa6bdc1-505e-4937-9b09-4b4f17dc289d',
+    postion: [7, 3],
+  },
+  {
+    name: '渠道类系统(网银、手机银行、CCSB/CCSP、图前)',
+    coordinate: '应用系统-渠道类系统(网银、手机银行、CCSB/CCSP、图前)',
+    uuid: '6e2b0cff-a1cc-4dc0-adf9-0a798948728c',
+    postion: [7, 4],
+  },
+  {
+    name: '财富金融类系统(AFSP/BFSP/BSTS/FDS/NFSD/托管/票据)',
+    coordinate: '应用系统-财富金融类系统(AFSP/BFSP/BSTS/FDS/NFSD/托管/票据)',
+    uuid: 'ba792558-2b01-4fe2-9edb-cbb297380fe1',
+    postion: [7, 5],
+  },
+  {
+    name: '其他系统',
+    coordinate: '应用系统-其他系统',
+    uuid: '82b9e3ef-1e3d-42d8-bd2b-fd8df9d19eee',
+    postion: [7, 6],
+  },
+  {
+    name: '进程',
+    coordinate: '应用可用性-进程',
+    uuid: '093f499b-6437-481d-9012-1845880fea3f',
+    postion: [6, 0],
+  },
+  {
+    name: '端口',
+    coordinate: '应用可用性-端口',
+    uuid: '741fe1f3-1556-4ec2-9d62-d0742cfdd332',
+    postion: [6, 1],
+  },
+  {
+    name: '链路',
+    coordinate: '应用可用性-链路',
+    uuid: '604aa9e1-1f88-4209-9067-3b946015bd42',
+    postion: [6, 2],
+  },
+  {
+    name: '关键文件',
+    coordinate: '应用可用性-关键文件',
+    uuid: '22cdfe71-9f07-41ab-aaa8-4798db4f36fd',
+    postion: [6, 3],
+  },
+  {
+    name: '批量',
+    coordinate: '应用可用性-批量',
+    uuid: '1a2e8207-a037-48d7-bc86-a57e2e529173',
+    postion: [6, 4],
+  },
+  {
+    name: '交易',
+    coordinate: '应用可用性-交易',
+    uuid: 'a59375de-f635-41f5-8b96-ff17008ebe7e',
+    postion: [6, 5],
+  },
+  {
+    name: '其他',
+    coordinate: '应用可用性-其他',
+    uuid: '95d9f467-3cce-4f1c-bd8a-70bd74b46de6',
+    postion: [6, 6],
+  },
+  {
+    name: '线程',
+    coordinate: '中间件-线程',
+    uuid: 'd59d7c20-582a-4987-91f7-22d573c1b717',
+    postion: [5, 0],
+  },
+  {
+    name: 'JVM',
+    coordinate: '中间件-JVM',
+    uuid: 'f0880766-50c0-4f48-a6c0-e03e702ac2c6',
+    postion: [5, 1],
+  },
+  {
+    name: 'JDBC',
+    coordinate: '中间件-JDBC',
+    uuid: 'c67cba5f-495f-4fdc-94d9-d477980280a8',
+    postion: [5, 2],
+  },
+  {
+    name: 'MO队列深度',
+    coordinate: '中间件-MO队列深度',
+    uuid: '534de4d7-1152-4541-b88c-24254d476e44',
+    postion: [5, 3],
+  },
+  {
+    name: 'MO通道状态',
+    coordinate: '中间件-MO通道状态',
+    uuid: '8c45d65c-5795-409c-a492-42f12f14c2d7',
+    postion: [5, 4],
+  },
+  {
+    name: 'TUX繁忙率',
+    coordinate: '中间件-TUX繁忙率',
+    uuid: '48112458-3bb1-4db8-846f-48a2ad7bbd0f',
+    postion: [5, 5],
+  },
+  {
+    name: '其他',
+    coordinate: '中间件-其他',
+    uuid: 'b562fbde-80eb-468f-bb3c-78fd5c0c3603',
+    postion: [5, 6],
+  },
+  {
+    name: '状态',
+    coordinate: '数据库-状态',
+    uuid: 'dc21ed7c-9478-4153-b51a-47db20a561e4',
+    postion: [4, 0],
+  },
+  {
+    name: '锁',
+    coordinate: '数据库-锁',
+    uuid: 'e034e4d3-9a63-459f-98e4-ee75165f7610',
+    postion: [4, 1],
+  },
+  {
+    name: '容量',
+    coordinate: '数据库-容量',
+    uuid: '96094c10-c69d-4e65-af99-d5424f98786f',
+    postion: [4, 2],
+  },
+  {
+    name: '事务',
+    coordinate: '数据库-事务',
+    uuid: 'c1bf0dd8-5add-4b29-b0cf-e0b6aaf436a6',
+    postion: [4, 3],
+  },
+  {
+    name: '其他',
+    coordinate: '数据库-其他',
+    uuid: '30b39f88-59b3-4428-aab8-b0df922db806',
+    postion: [4, 4],
+  },
+  {
+    name: '状态',
+    coordinate: '主机-状态',
+    uuid: 'f40346e8-6153-4d19-adf2-afb9a01f959d',
+    postion: [3, 0],
+  },
+  {
+    name: '硬件',
+    coordinate: '主机-硬件',
+    uuid: 'c73a78f7-bebc-4006-b448-e4c449f0fc8b',
+    postion: [3, 1],
+  },
+  {
+    name: '内核',
+    coordinate: '主机-内核',
+    uuid: '4df69ffb-8bed-4a02-85e6-aae6ac5b4437',
+    postion: [3, 2],
+  },
+  {
+    name: '容量',
+    coordinate: '主机-容量',
+    uuid: '59899847-0f18-4f2e-961e-7ce44aca3217',
+    postion: [3, 3],
+  },
+  {
+    name: '网络',
+    coordinate: '主机-网络',
+    uuid: 'dcbd264b-91d9-429a-924f-78d048a8cf4c',
+    postion: [3, 4],
+  },
+  {
+    name: '安全',
+    coordinate: '主机-安全',
+    uuid: '6468d129-fd10-47df-a93a-0d9d9328c1b5',
+    postion: [3, 5],
+  },
+  {
+    name: '性能',
+    coordinate: '主机-性能',
+    uuid: '56f0d41c-8dc6-4782-9dbd-f53e0d875fc0',
+    postion: [3, 6],
+  },
+  {
+    name: '其他',
+    coordinate: '主机-其他',
+    uuid: 'dc208ad4-a162-4c0d-a4a9-b6579dba74a0',
+    postion: [3, 7],
+  },
+  {
+    name: '控制器',
+    coordinate: '存储设备-控制器',
+    uuid: 'd5d43a49-7f1f-428e-b2a6-02fecaea7fb7',
+    postion: [1, 0],
+  },
+  {
+    name: '端口',
+    coordinate: '存储设备-端口',
+    uuid: '89c8003c-28be-482f-8221-602fa4400df7',
+    postion: [1, 1],
+  },
+  {
+    name: '内存',
+    coordinate: '存储设备-内存',
+    uuid: '09849834-6e12-4df3-acc6-f1f2bc04d24b',
+    postion: [1, 2],
+  },
+  {
+    name: '链路错帧',
+    coordinate: '存储设备-链路错帧',
+    uuid: 'cdc8f9b7-2da0-4d8f-8386-1f29059b3c1e',
+    postion: [1, 3],
+  },
+  {
+    name: '性能',
+    coordinate: '存储设备-性能',
+    uuid: 'ca383e4c-58b2-49ee-adb1-d25bb5d64482',
+    postion: [1, 4],
+  },
+  {
+    name: '容量',
+    coordinate: '存储设备-容量',
+    uuid: 'aa1e47b2-09ed-46b4-8e75-dbe53367c338',
+    postion: [1, 5],
+  },
+  {
+    name: '磁盘',
+    coordinate: '存储设备-磁盘',
+    uuid: 'ddc650ec-65fd-43ba-82f3-422456104a45',
+    postion: [1, 6],
+  },
+  {
+    name: '其他',
+    coordinate: '存储设备-其他',
+    uuid: '999f288e-468e-4419-932a-c31dabed02aa',
+    postion: [1, 7],
+  },
+  {
+    name: '核心区域线路',
+    coordinate: 'DWDM-核心区域线路',
+    uuid: 'f3fcad59-ecee-476b-8914-a69f8bbef2c5',
+    postion: [0, 0],
+  },
+  {
+    name: '非核心区域线路',
+    coordinate: 'DWDM-非核心区域线路',
+    uuid: '006c2142-de97-4ba0-96be-3c6e8378e23c',
+    postion: [0, 1],
+  },
+  {
+    name: '其他',
+    coordinate: 'DWDM-其他',
+    uuid: 'b5c37b14-7eb1-4f1b-ad1f-736ecde98a3d',
+    postion: [0, 2],
+  },
+  {
+    name: '关键区域',
+    coordinate: '网络相关-关键区域',
+    uuid: '48cfb7d3-1d7a-4cfb-9fc5-2a03541a1f59',
+    postion: [2, 0],
+  },
+  {
+    name: '关键链路',
+    coordinate: '网络相关-关键链路',
+    uuid: '908fe4a0-cb99-49bd-bb11-bf3c28d86dc9',
+    postion: [2, 1],
+  },
+  {
+    name: '负载均衡',
+    coordinate: '网络相关-负载均衡',
+    uuid: 'b7ca338f-b7ae-4efa-831e-d665d6b99d97',
+    postion: [2, 2],
+  },
+  {
+    name: '防火墙',
+    coordinate: '网络相关-防火墙',
+    uuid: '0a3d670a-c841-4ea9-8883-6b2773d9f4fe',
+    postion: [2, 3],
+  },
+  {
+    name: '协议加速',
+    coordinate: '网络相关-协议加速',
+    uuid: '0d9e1f32-92b8-4199-887b-61712ad57472',
+    postion: [2, 4],
+  },
+  {
+    name: '其他',
+    coordinate: '网络相关-其他',
+    uuid: 'be5235bd-7d1d-413b-bdb0-92c682e99f95',
+    postion: [2, 5],
+  },
+]
+const oelView = 'f59edde9-30d6-4b3e-9b6e-b5084318a392'// 指定oel的视图uuid
+
+
+export { conf, oelView }

@@ -1,0 +1,34 @@
+
+:global(.example-multiple-targets::after) {
+    content: attr(data-count);
+    display: block;
+}
+
+:global(.ant-table-small .ant-table-tbody > tr > td){
+	position: relative;
+}
+
+
+:global .rowHover{
+	width: 100%;
+	height: 410px;
+	float: left;
+	overflow: scroll;
+}
+
+:global .content-inner6 {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	margin: 6px;
+	padding-left: 12px; 
+	padding-right: 12px;
+}
+
+:global .content-inner6 .ant-table-tbody tr:hover td{
+	background-color: #f5ee94;
+}
+
+
+:global .content-inner6 .ant-table-thead  {
+	background-color: #ffffff;
+}

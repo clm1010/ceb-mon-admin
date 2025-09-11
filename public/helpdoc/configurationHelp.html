@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监控配置使用手册</title>
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <!-- 导航列表 -->
+            <ul class="nav_ul">
+                <li class="nav_title"><h3><a href="#logicview">逻辑示意图</a></h3></li>
+                <li class="nav_title">
+                    <h3>配置流程</h3>
+                </li>
+                <li><a href="#timePeriods">周期管理</a></li>
+                <li><a href="#toollist">监控工具管理</a></li>
+                <li><a href="#stdIndicatorInfo">监控指标管理</a></li>
+                <li><a href="#zabbixItems">指标实现管理</a></li>
+                <li><a href="#mo">监控对象管理</a></li>
+                <li><a href="#policyTemplet">策略模板管理</a></li>
+                <li><a href="#policyRule">策略规则管理</a></li>
+                <!--<li>策略实例管理</li>-->
+                <li><a href="#ruleInstance">监控实例管理</a></li>
+                <li><a href="#notNetDown">非网络监控实例管理</a></li>
+                <li><a href="#mowizard">网络自服务</a></li>
+                <li class="nav_title">
+                    <h3>举例</h3>
+                </li>
+                <li><a href="#example-timePeriods">周期配置</a></li>
+                <li><a href="#example-mo">监控对象配置</a></li>
+                <li><a href="#example-toollist">工具配置</a></li>
+                <li><a href="#example-network">网络域配置</a></li>
+                <!--<li><a href="#example-network-PING"><h5>&nbsp;&nbsp;PING配置</h5></a></li>
+                <li><a href="#example-network-RPING"><h5>&nbsp;&nbsp;RPING配置</h5></a></li>
+                <li><a href="#example-network-SNMP"><h5>&nbsp;&nbsp;SNMP配置</h5></a></li>-->
+                <li><a href="#example-system">系统域配置</a></li>
+                <li><a href="#example-system-Linux"><h5>&nbsp;&nbsp;Linux配置</h5></a></li>
+                <li><a href="#example-troubleshooting">问题排查</a></li>
+           </ul>
+        </nav>
+        <div class="main">
+            <!-- 逻辑示意图 -->
+            <div id='logicview' class="logicview">
+                <h1>监控配置帮助手册</h1>
+                <h2 class="mainTitle">1.逻辑示意图</h2>
+                <img src="./images/logic.png" alt="smile" height="500px"/>
+                <ul class="logicview_ul">
+                    <li><B>指标</B> - 是监控对象的某个⽅⾯的属性，如 CPU 利⽤率、端⼝带宽等等。</li>
+                    <li><B>指标实现</B> - 定义某种监控对象的某个指标在某种监控⼯具上要如何监控。如不同型号的交换机，其采集 CPU 利⽤率的⽅式可能是不相同的，对于同⼀个 CPU
+                        利⽤率的指标，需要定义不同的指标实现来监控。</li>
+                    <li><B>监控工具</B> - 具体实施监控的⼯具，如 Zabbix，Prometheus 等等。</li>
+                    <li><B>监控对象（MO）</B> -
+                        是指需要被监控的对象，如⽹络设备、服务器、操作系统、数据库等等。系统会保存监控对象信息，以及部分对象之间的关系（如端⼝和⽹络设备之间的关系，⽂件系统和操作系统之间的关系）。</li>
+                    <li><B>策略模板</B> -指定如何去监控某个对象，定义 采集参数 如采集周期、重试次数、超时时⻓等， 告警参数 如监控的指标、阈值、告警名、告警定级规则、告警丢弃规则、监控周期等等。</li>
+                    <li><B>策略规则</B> - 定义哪些监控对象使⽤哪些监控模板和监控⼯具来监控。其中监控对象也是使⽤ MO 匹配器来动态指定本规则适⽤于哪些监控对象。</li>
+                    <!--<li>策略实例 - 每个模板最多实例化⼀个策略实例，保存了对象匹配规则、策略模板和工具类型的绑定关系。</li>-->
+                    <li><B>监控实例</B> – 保存了监控对象、策略和工具的绑定关系。</li>
+                    <li><B>监控周期</B> - 定义了对监控对象的监控时间周期。例如7*24，即每周7天，每天24个小时。</li>
+                </ul>
+            </div>
+            <ul class="main_ul">
+                <li>
+                    <h2 class="mainTitle">2.基本配置流程</h2>
+                </li>
+                <li class="monitorTool">
+                    <div id="timePeriods">
+                        <h3 class="main_title">周期管理</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <div class="content">
+                            <div>
+                                <h4 class="name">界面组成 ></h4>
+                                <p>上部分为查询及操作栏，包含查询、新增、批量删除操作；下部为数据显示列表，其中每一行数据可以进行编辑、删除操作。</p>
+                                <img src="./images/timePeriods-main.png" alt="smile" class="mainimg" width="100%"/>
+                                <p class="bold">按钮说明如下：</p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>操作</th>
+                                            <th>说明</th>
+                                            <th>图例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>新增</td>
+                                            <td>添加新的工具实例。</td>
+                                            <td><img src="./images/toollist-new.png" alt="smile"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>删除</td>
+                                            <td>删除单个或多个工具实例，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                            <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                                <img src="./images/timePeriods-delete2.png" alt="smile" class="del2"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>编辑</td>
+                                            <td>编辑某个工具实例。</td>
+                                            <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="bold">操作说明如下：</p>
+                                <ul class="describe">
+                                    <li>点击新增按钮<img src="./images/toollist-new.png" alt="smile"/>
+                                        将弹出新增周期，填写周期名称、描述以及开启时间段等。</li>
+                                    <li>编辑周期<img src="./images/toollist-edit.png" alt="smile"/> ，可以编辑修改该条周期。</li>
+                                    <li>删除周期<img src="./images/toollist-delete1.png" alt="smile"/> ，删除对应的周期。</li>
+                                            
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="monitorTool">
+				<div id="toollist">
+                    <h3 class="main_title">监控工具管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>上部分为查询及操作栏，包含查询、新增、批量删除操作；下部为数据显示列表，其中每一行数据可以进行编辑、删除操作。</p>
+                            <img src="./images/toollist-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>添加新的工具实例。</td>
+                                        <td><img src="./images/toollist-new.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个工具实例，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个工具实例。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                </tr>
+                                <tr>
+                                    <td>查询</td>
+                                    <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                    <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="bold">操作说明如下：</p>
+                            <ul class="describe">
+                                <li>点击新增按钮<img src="./images/toollist-new.png" alt="smile"/>
+                                    将弹出新增工具实例，有实例名称、工具类型（zabbix现在是集团主要的监控工具）、URL、用户名、密码等必填项，可以选填所属机构及MO配对条件。</li>
+                                <li>编辑工具实例<img src="./images/toollist-edit.png" alt="smile"/> ，可以编辑修改该条工具实例（工具类型不可修改）。
+                                </li>
+                                <li>删除工具实例<img src="./images/toollist-delete1.png" alt="smile"/> ，删除对应的工具实例。</li>
+                                        <li>
+                                        <div>
+                                        <p>点击发现MO数，弹出关联监控对象，显示与该条工具实例关联的MO信息。</p>
+                                        <img src="./images/toollist-describe-mo1.png" alt="smile" class="describe1"/><B>➡</B>
+                                        <img src="./images/toollist-describe-mo2.png" alt="smile" class="describe2" width="100%"/>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <div>
+                            <h4 class="name"> <span class="type-signature">(static)</span> create <span
+                                    class="signature">()</span></h4>
+                            <ul class="details">
+                                <li>
+                                    <span>Source:</span>
+                                    <a href="models_myMaintenan.js.html">models/myMaintenan.js</a>,
+                                    <a href="models_myMaintenan.js.html#line359">line 359</a>
+                                </li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+				</li>
+                <li>
+				<div id="stdIndicatorInfo">
+                    <h3 class="main_title">监控指标管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>左侧：指标组，分为指标列表和操作栏，包含新增、编辑、删除操作。</p>
+                            <p>右侧：主界面，分为两部分。上部分为查询及操作栏，包含查询、新增、删除、移动等操作；下部为数据显示列表，其中每一行数据可以进行查看、编辑、删除操作。</p>
+                            <img src="./images/monitorTarget-mian.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">指标组介绍：</p>
+                            <ul class="group">
+                                <li>当选择某一指标分组时，右侧主界面显示的是该分组的所有指标数据，当取消选择时，右侧主界面显示的是全部指标数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    指标组，选中某个指标时可以将新增指标添加至该指标组下，不选择任何指标时将添加到根节点下。</li>
+                                <li>可以编辑 <img src="./images/toollist-edit.png" alt="smile"/> 指标组，选中要编辑的指标，可以修改该指标名称。</li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    指标组。当组中有指标时需先删除所有指标，再删除指标组。</li>
+                            </ul>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>添加新的监控指标。</td>
+                                        <td><img src="./images/toollist-new.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个监控指标，其中批量删除按钮需在勾选指标数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个监控指标。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量复制</td>
+                                        <td>将多个指标复制到其他指标组。</td>
+                                        <td><img src="./images/toollist-duplicate.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量移动</td>
+                                        <td>将多个指标移动到其他指标组。</td>
+                                        <td><img src="./images/toollist-move.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>第三方服务导出模板数据至本地文件。</td>
+                                        <td><img src="./images/toollist-derive.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导入</td>
+                                        <td>本地文件导入到监控指标数据列表。</td>
+                                        <td><img src="./images/toollist-import.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class=" bold">操作说明如下：</p>
+                                            <ul class="describe">
+                                                <li>新增指标-指标是指一个标准，他指明MO监控的位置和描述。<br>
+                                                    点击新增按钮<img src="./images/toollist-new.png" alt="smile"/>
+                                                    将弹出新增标准指标，指标名称、指标描述为必填项；新增的指标可以选择对应的指标分组，便于左侧指标分类查询，也可不选择指标分组。<br>
+                                                    <img src="./images/add-group.png" alt="smile" style="width: 26%;"/>
+                                                </li>
+                                                <li>查看指标<img src="./images/toollist-inspect.png" alt="smile"/>
+                                                    ，查看标准指标，有指标名称、描述、数据类型、告警分组、创建信息等。</li>
+                                                <li>编辑指标<img src="./images/toollist-edit.png" alt="smile"/>
+                                                    ，可以编辑修改该条指标信息（创建信息不可更改）。</li>
+                                                <li>
+                                                    删除指标<img src="./images/toollist-delete1.png" alt="smile"/> ，删除对应的标准指标。
+                                                </li>
+                                            </ul>
+                        </div>
+                    </div>
+					</div>
+                </li>
+                <li>
+				<div id="zabbixItems">
+                    <h3 class=" main_title">指标实现管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>左侧：模板组，分为模板列表和操作栏，包含新增、编辑、删除操作。</p>
+                            <p>右侧：主界面，分为两部分。上部分为查询及操作栏，包含查询、新增、删除、移动等操作；下部为数据显示列表，其中每一行数据可以进行查看、编辑、删除操作。</p>
+                            <img src="./images/targeTrealize-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">模版组介绍</p>
+                            <ul class="group">
+                                <li>当选择某一分组时，右侧主界面显示的是该分组的所有模板数据，当取消选择时，右侧主界面显示的是全部模板数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    模板组，选中某节点可以将新增组添加至其下，不选择任何节点的新增将组添加到根节点下。</li>
+                                <li>可以编辑 <img src="./images/toollist-edit.png" alt="smile"/> 模版组，选中要编辑的模版，可以修改该模版的名称。
+                                </li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    模板组，当组中有模板时需先删除所有模板，再删除模板组。</li>
+                            </ul>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>添加新的模版。</td>
+                                        <td><img src="./images/toollist-new.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个模板，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个模版。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量复制</td>
+                                        <td>将多个模板复制到其他模板组。</td>
+                                        <td><img src="./images/toollist-duplicate.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量移动</td>
+                                        <td>将多个模板移动到其他模板组。</td>
+                                        <td><img src="./images/toollist-move.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>第三方服务导出规则数据至本地文件。</td>
+                                        <td><img src="./images/toollist-derive.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导入</td>
+                                        <td>本地文件导入到监控指标数据列表。</td>
+                                        <td><img src="./images/toollist-import.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class=" bold">操作说明如下：</p>
+                                            <ul class="describe">
+                                                <li>
+                                                    <div>
+                                                        <p>点击新增按钮<img src="./images/toollist-new.png" alt="smile"/>将弹出新增item模板编辑框，指标绑定了指标选择器进行选择，选择对应的指标进行保存；
+                                                        </p>
+                                                        <img src="./images/toollist-target.png" alt="smile" class="target1" width="26%"/>➡
+                                                        <img src="./images/toollist-target2.png" alt="smile" class="target2" width="53%"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <p>监控对象特征绑定了监控对象MO的分类及匹配条件；</p>
+                                                        <img src="./images/toollist-target3.png" alt="smile" class="target1" width="26%"/>➡
+                                                        <img src="./images/toollist-target4.png" alt="smile" class="target2" width="53%"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <p>新增的item模板可以选择对应的模板分组，也可不选择模板分组。</p>
+                                                    <img src="./images/toollist-target5.png" alt="smile" class="operateImg" width="53%"/>
+                                                </li>
+                                                <li>
+                                                    <p>这里配备了其对应指标所需要计算的公式。</p>
+                                                    <img src="./images/toollist-target6.png" alt="smile" class="operateImg" width="53%"/>
+                                                </li>
+                                                <li>查看模版<img src="./images/toollist-inspect.png" alt="smile"/>
+                                                    ，查看item模板，有模板基本信息和公式。</li>
+                                                <li>编辑模版<img src="./images/toollist-edit.png" alt="smile"/>
+                                                    ，可以编辑修改该条item模板信息。</li>
+                                                <li>
+                                                    删除模版<img src="./images/toollist-delete1.png" alt="smile"/> ，删除对应的item模板。
+                                                </li>
+                                            </ul>
+                        </div>
+                    </div>
+					</div>
+                </li>
+                <li>
+				<div id="mo">
+                    <h3 class=" main_title">监控对象管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>主界面分为两部分。上部为查询及操作栏，包含导出，MO向导等操作；下部为数据显示列表，显示每一条具体的监控对象</p>
+                            <img src="./images/MO-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MO向导</td>
+                                        <td>页面跳转到网络自服务界面进行操作</td>
+                                        <td><img src="./images/toollist-mo.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>选择导出行之后，将所选监控对象导出成EXCEL</td>
+                                        <td><img src="./images/toollist-derive2.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MO类型切换</td>
+                                        <td>跳转不同类型的监控对象页面</td>
+                                        <td><img src="./images/MO-types.png" alt="smile"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class="name">MO类型 </h4>
+                            <p>所有的监控对象按其关系形成树状类型，每个类型都有自己对应的页面及操作，这里我们拿最常用的网络举例，如下所示：</p>
+                            <img src="./images/MO-type2.png" alt="smile" class="MOType"/>
+                            <p>当我们选择路由器的时候，会自动检索出所有的路由器。</p>
+                            <img src="./images/MO-type3.png" alt="smile" class="mainimg" width="100%"/>
+                            <p>当我们选择路由器下面接口的时候，上图中红框所标注的接口就会全部检索出来，形成单独的列表，如下所示：</p>
+                            <img src="./images/MO-type4.png" alt="smile" class="MOType"/>
+                            <img src="./images/MO-type5.png" alt="smile" class="mainimg" width="100%"/>
+                            <p>其他MO类型也是如此，每一个MO类型都会有单独的一个页面，拿MO类型为IP举例，区别于上述的路由器与接口，如下图：</p>
+                            <img src="./images/MO-type6.png" alt="smile" class="mainimg" width="100%"/>
+
+                            <p class="bold">各类型MO界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>选择导出行之后，将所选监控对象导出成EXCEL</td>
+                                        <td><img src="./images/toollist-derive2.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某一条监控对象（在选择完具体的MO类型之后，列表的右边就会出现编辑）</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除某一条监控对象（在选择完具体的MO类型之后，列表的右边就会出现删除）</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>下发预览</td>
+                                        <td>出现一个新的页面，显示的是该设备上的实例，包括已下发实例，未下发实例，问题实例，全量实例（当MO类型为网络，操作系统，数据库，中间件下面的类型时，列表右边才会出现预览按钮）</td>
+                                        <td><img src="./images/toollist-preview.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量下发预览</td>
+                                        <td>出现一个新的页面，显示的是选中设备上的实例，包括已下发实例，未下发实例，问题实例，全量实例（当MO类型为网络，操作系统，数据库，中间件下面的类型时，列表才会出现预览按钮）</td>
+                                        <td><img src="./images/toollist-preview2.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>新增某一种类型的监控对象（在选择完具体的MO类型之后，列表上边会出现新增按钮）</td>
+                                        <td><img src="./images/toollist-addRed.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>同步</td>
+                                        <td>（当MO类型为路由器，交换机，防火墙，负载均衡，网络管理器的时候，列表上边会有同步的按钮）</td>
+                                        <td><img src="./images/toollist-sync.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量纳管</td>
+                                        <td>（当MO类型为路由器，交换机，防火墙，负载均衡，网络管理器的时候，列表上边会有批量纳管的按钮）</td>
+                                        <td><img src="./images/toollist-spool.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量取消纳管</td>
+                                        <td>（当MO类型为路由器，交换机，防火墙，负载均衡，网络管理器的时候，列表上边会有批量取消纳管的按钮）</td>
+                                        <td><img src="./images/toollist-noSpool.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>模版下载</td>
+                                        <td>选择完具体的MO类型，就会有模板按钮，点击模板会下载具体的监控对象模板</td>
+                                        <td><img src="./images/toollist-template.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>模版导入</td>
+                                        <td>选择完具体的MO类型，就会有导入按钮，点击导入会从外部导入具体的监控对象模板</td>
+                                        <td><img src="./images/toollist-import.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class="name">MO向导 </h4>
+                            <p>可以从“自服务管理”菜单或监控对象管理页面的“MO向导”按钮访问网络自服务的界面，在这里对设备进行上线和下线的操作，参考<a href="#mowizard" style="text-decoration:underline;">网络自服务</a>。</p>
+                            <img src="./images/MO-type7.png" alt="smile" class="mainimg" width="100%"/>
+                        </div>
+                    </div>
+				</div>
+                </li>
+                <li>
+				<div id="mowizard">
+                    <h3 class=" main_title">网络自服务</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>主界面分为三部分。上部为查询及操作栏，包含上线，下线的操作；下部为数据显示列表，显示每一条具体的数据，右侧为选择具体类型的对象（包括设备，线路，网点IP）</p>
+                            <img src="./images/moWizard-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>上线</td>
+                                        <td>对一个（设备，线路，网点IP）进行上线操作。</td>
+                                        <td><img src="./images/toollist-online.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>下线</td>
+                                        <td>对勾选的某一个或几个（设备，线路，网点IP）进行下线操作。</td>
+                                        <td><img src="./images/toollist-offLine.png" alt="smile"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>变更</td>
+                                        <td>对列表中某一监控对象进行变更。</td>
+                                        <td><img src="./images/toollist-change.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class=" name">上线 </h4>
+                                            <p>下面以设备上线为例，如下图：</p>
+                                            <img src="./images/moWizard-online1.png" alt="smile" class="mainimg" width="100%"/>
+                                            <p>首先第一步要输入一个还未上线的设备IP，并选择所属行，系统会对此设备进行自动发现及信息同步；</p>
+                                            <img src="./images/moWizard-online2.png" alt="smile" class="mainimg" width="100%"/>
+                                            <p>第二步在同步信息的基础上填入或修改设备的信息值，例如，应用分类名称这个选择框是一个查询框，需要手动输入关键字才能进行选择;</p>
+                                            <img src="./images/moWizard-online3.png" alt="smile" class="mainimg" width="100%"/>
+                                            <p>完成上一步之后，可以看到接口选择页面，就是需要选择要监控的接口，可以通过点击右边的修改按钮，修改接口的实际带宽等，选择完之后点下一步;</p>
+                                            <img src="./images/moWizard-online4.png" alt="smile" class="mainimg" width="100%"/>
+                                            <p>最后一步是下发预览列表，可以看到所有的增量实例，问题实例，已存在实例和全量实例，点击保存按钮可以将设备信息入库，点击下发按钮可以下发具体的监控指令，下发成功之后，就完成了上线操作。</p>
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class="name">下线 </h4>
+                            <p>在列表中选择一条或多条数据，然后点击下线按钮，当提示下线状态修改成功之后，该条数据就成功下线了，下线的结果可以在列表中在线状态一栏看到。</p>
+                            <img src="./images/moWizard-offline1.png" alt="smile" style="width: 20%;"/>
+                            <img src="./images/moWizard-offline2.png" alt="smile" style="width: 30%;"/>
+                        </div>
+                    </div>
+				</div>
+                </li>
+                <li>
+				<div id="policyTemplet">
+                    <h3 class=" main_title">策略模板管理</h3>
+					<hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>左侧：模板组</p>
+                            <p>右侧：主界面分为两部分。上部为查询及操作栏，包含查询、新增、删除、移动等操作；下部为数据显示列表，其中每一行数据可以进行查看、编辑、删除操作。
+                            </p>
+                            <img src="./images/tacticsTem-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">模版组：</p>
+                            <ul class="group">
+                                <li>当选择某一分组时，右侧主界面显示的是该分组的所有模板数据，当取消选择时，右侧主界面显示的是全部模板数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    模板组，选中某节点可以将新增组添加至其下，不选择任何节点的新增将组添加到根节点下。</li>
+                                <li>可以编辑 <img src="./images/toollist-edit.png" alt="smile"/>
+                                    模版组，选中要编辑的模版，可以修改该模版的名称。
+                                </li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    模板组，当组中有模板时需先删除所有模板，再删除模板组。</li>
+                            </ul>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>添加新的策略模板。</td>
+                                        <td><img src="./images/toollist-new.png" alt="smile"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个策略模板，其中批量删除按钮需在勾选模板数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个策略模板。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量复制</td>
+                                        <td>将多个模板复制到其他模板组。</td>
+                                        <td><img src="./images/toollist-duplicate.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量移动</td>
+                                        <td>将多个模板移动到其他模板组。</td>
+                                        <td><img src="./images/toollist-move.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>第三方服务导出模板数据至本地文件。</td>
+                                        <td><img src="./images/toollist-derive.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+						<hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class=" name">新增模版 ></h4>
+                                            <p class=" bold">操作说明如下：</p>
+                                            <p>点击新增按钮将弹出策略模板编辑框，用于添加模板。新增的模板可以属于某一模板组，也可不属于任何模板组。
+                                            </p>
+                                            <p>缺省情况下有一条告警设置，可点击“编辑”进行修改。</p>
+                                            <img src="./images/tacticsTem-add1.png" alt="smile"/>
+                                            <p>其中告警条件里必须有一条数据。</p>
+                                            <img src="./images/tacticsTem-add2.png" alt="smile"/>
+                                            <p>告警名称不能为空。</p>
+                                            <img src="./images/tacticsTem-add3.png" alt="smile"/>
+                        </div>
+                    </div>
+				</div>
+                </li>
+                <li>
+				<div id="policyRule">
+                    <h3 class=" main_title">策略规则管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <h4 class="name">界面组成</h4>
+                            <p>左侧：规则组（监控实例分组与策略规则分组相同）</p>
+                            <p>右侧：主界面，包括查询、新增、删除、移动等操作</p>
+                            <img src="./images/policyRule-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">规则组：</p>
+                            <ul class="group">
+                                <li>当选择某一分组时，右侧主界面显示的是该分组的所有规则数据，当取消选择时，右侧主界面显示的是全部策略规则数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    规则分组，选中某节点可以将新增组添加至其下，不选择任何节点的新增将组添加到根节点下。</li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    规则分组，当组中有规则时需先删除所有策略规则，再删除规则分组。</li>
+                            </ul>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>添加新的策略规则。</td>
+                                        <td><img src="./images/toollist-new.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个策略规则，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个策略规则。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量复制</td>
+                                        <td>将多个规则复制到其他规则组。</td>
+                                        <td><img src="./images/toollist-duplicate.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>批量移动</td>
+                                        <td>将多个规则移动到其他规则组。</td>
+                                        <td><img src="./images/toollist-move.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出</td>
+                                        <td>第三方服务导出规则数据至本地文件。</td>
+                                        <td><img src="./images/toollist-derive.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>计算</td>
+                                        <td>生成策略实例和监控实例。</td>
+                                        <td><img src="./images/toollist-calculate.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>分布式增量下发</td>
+                                        <td>下发分布式系统的监控信息。</td>
+                                        <td><img src="./images/policyRule-dsIssue.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="bold">数据操作栏菜单项说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>查看</td>
+                                        <td>查看某个策略规则。</td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个策略规则，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个策略规则。</td>
+                                    </tr>
+                                    <tr>
+                                        <td>克隆</td>
+                                        <td>将当前规则进行复制。</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <h4 class=" name">新增规则 </h4>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                                            <div>
+                                                <p>点击新增按钮将弹出策略规则编辑框，用于添加规则。新增的规则可以属于某一规则分组，也可不属于任何分组。</p>
+                                                <p>策略规则需要添加监控对象匹配规则。</p>
+                                                <img src="./images/policyRule-add.png" alt="smile"/>
+                                            </div>
+                        </div>
+                        <div>
+                            <h4 class="name">计算</h4>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                                <div>
+                                    <p>计算生成策略实例和监控实例。点击策略规则管理——计算</p>
+                                    <img src="./images/list-count1.png" alt="smile" class="mainimg" width="100%"/>
+                                    <p>填选择需要下发计算的机构后点击确定</p>
+                                    <img src="./images/list-count2.png" alt="smile" style="width: 40%;"/>
+                                </div>
+                        </div>
+                    </div>
+
+				</div>
+                </li>
+                <!--<li>
+                    <h3 class="main_title">策略实例管理</h3>
+                    <div class="content">
+                        <div>
+                            <p>策略实例中每个模板最多实例化⼀个策略实例，保存了对象匹配规则、策略模板和工具类型，的绑定关系，策略实例现在已经属于过时的产品，待未来可能会去掉，只保留监控实例这个菜单即可。
+                            </p>
+                            <h4 class="name">界面组成 ></h4>
+                            <p>左侧：策略实例组（策略实例分组与策略规则分组相同）</p>
+                            <p>右侧：主界面，包括查询、批量删除、查看、编辑、删除等操作</p>
+                            <img src="./images/ruleInstance-main.png" alt="smile" class="mainimg"/>
+                            <p class="bold">策略实例组介绍：</p>
+                            <ul class="group">
+                                <li>当选择某一分组时，右侧主界面显示的是该分组的所有策略实例数据，当取消选择时，右侧主界面显示的是全部策略实例数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    策略实例分组，选中某节点可以将新增组添加至其下，不选择任何节点的新增将组添加到根节点下。</li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    策略实例分组，当组中有规则时需先删除所有策略实例，再删除策略实例分组。</li>
+                            </ul>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>查看</td>
+                                        <td>查看某个策略实例的详细信息。</td>
+                                        <td><img src="./images/toollist-look.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个策略规则，其中批量删除按钮需在勾选模板数据后才能激活。。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>修改某个策略实例。此处修改功能被禁用，因为策略实例是计算生成的监控实例的过渡品，所以不能修改。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </li>-->
+                <li>
+				<div id="ruleInstance">
+                    <h3 class="main_title">监控实例管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <br>
+                            <h4>实例化监控实例：</h4>
+                            <p>保存了监控对象、策略和工具的绑定关系，由策略规则与对应的指标实现计算而得到。</p>
+                            <h4>非实例化监控实例：</h4>
+                            <p>是由实例化监控实例通过修改或者下发失败而得到的，与实例化相比，它最本质的区别就是下发状态是失败的或者未下发的，因为实例的数据被修改，进而影响了下发状态。</p>
+                            
+                            <h4 class="name">界面组成 ></h4>
+                            <p>左侧：模板组</p>
+                            <p>右侧：</p>
+                            <img src="./images/ruleInstance-main2.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">监控实例组介绍：</p>
+                            <ul class="group">
+                                <li>当选择某一分组时，右侧主界面显示的是该分组的所有实例化监控实例数据，当取消选择时，右侧主界面显示的是全部实例化监控实例数据。</li>
+                                <li>可以新增 <img src="./images/toollist-add.png" alt="smile"/>
+                                    监控实例分组，选中某节点可以将新增组添加至其下，不选择任何节点的新增将组添加到根节点下。</li>
+                                <li>可以删除 <img src="./images/toollist-delete1.png" alt="smile"/>
+                                    监控实例分组，当组中有规则时需先删除所有监控实例，再删除监控实例分组。</li>
+                            </ul>
+                            <p class="bold">注意：</p>
+                            <p>监控实例组只能控制实例化监控实例的数据，非实例化的数据并不会受到影响，因而非实例化监控实例显示的是所有的下发失败的数据</p>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>新增</td>
+                                        <td>手动配置新的监控实例，配置成功后会统一显示在非实例化监控实例这一栏中，点击下发成功后才能在实例化监控实例中显示</td>
+                                        <td><img src="./images/toollist-addRed.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个或多个监控实例，其中批量删除按钮需在勾选规则数据后才能激活。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                            <img src="./images/toollist-delete2.png" alt="smile" class="del2"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个监控实例</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>下发</td>
+                                        <td>勾选一个或多个分支，点击下发按钮，下发这些分支的非实例化的数据</td>
+                                        <td><img src="./images/toollist-xiafa.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>下发禁用</td>
+                                        <td>将下发按钮的功能置灰，禁用下发按钮</td>
+                                        <td><img src="./images/toollist-xiafa2.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class="name">新增监控实例</h4>
+                            <p>点击新增监控实例按钮，进行配置</p>
+                            <p>配置策略类型，策略类型与策略的计算有关，不同的类型会形成不同的公式组合</p>
+                            <img src="./images/toollist-ruleInstance1.png" alt="smile"/>
+                            <p>监控工具的配置是将该非实例化数据下发到哪台工具上</p>
+                            <img src="./images/toollist-ruleInstance2.png" alt="smile"/>
+                            <p>监控对象是指该实例监控的是哪一个MO</p>
+                            <img src="./images/toollist-ruleInstance3.png" alt="smile"/>
+                            <p>监控参数的配置是选择该MO的哪个指标进行监控，监控的参数、采集周期设置等等</p>
+                            <img src="./images/toollist-ruleInstance4.png" alt="smile"/>
+                            <p class="bold">操作详情：</p>
+                            <p>主要是配置告警名、告警参数、告警等级、监控周期等</p>
+                            <img src="./images/toollist-ruleInstance5.png" alt="smile"/>
+                            <p>配置周期：</p>
+                            <img src="./images/toollist-ruleInstance6.png" alt="smile"/>
+                            <p>告警是否可恢复：</p>
+                            <img src="./images/toollist-ruleInstance7.png" alt="smile"/>
+                            <p>告警阀值：（超过或者低于阀值多少次则触发告警）</p>
+                            <img src="./images/toollist-ruleInstance8.png" alt="smile" width="60%"/>
+                            <p>定义告警：</p>
+                            <img src="./images/toollist-ruleInstance9.png" alt="smile" width="60%"/>
+                            <p>告警级别制定：</p>
+                            <img src="./images/toollist-ruleInstance10.png" alt="smile" width="60%"/>
+                            <p>是否丢弃告警：</p>
+                            <img src="./images/toollist-ruleInstance11.png" alt="smile" width="60%"/>
+                            <p class="bold">查看具体信息：</p>
+                            <p>查看关联监控实例</p>
+                            <img src="./images/toollist-ruleInstance12.png" alt="smile" width="80%"/>
+                        </div>
+                        <div>
+                            <h4 class="name">下发</h4>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                                <div>
+                                    <p>点击监控实例管理——下发</p>
+                                    <img src="./images/list-xiafa1.png" alt="smile" class="mainimg" width="100%"/>
+                                    <p>填选择需要下发的分支后点击确定</p>
+                                    <img src="./images/list-count2.png" alt="smile" style="width: 40%;"/>
+                                </div>
+                        </div>
+
+                    </div>
+				</div>
+                </li>
+                <li>
+				<div id="notNetDown">
+                    <h3 class="main_title">非网络监控实例管理</h3>
+                    <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                    <div class="content">
+                        <div>
+                            <p>保存了监控对象、策略和工具的绑定关系，由策略规则与对应的指标实现计算而得到的非网络域MO的监控实例</p>
+                            <h4>非网络实例化监控实例：</h4>
+                            <p>保存了监控对象、策略和工具的绑定关系，由策略规则与对应的指标实现计算而得到。</p>
+                            <h4>非网络非实例化监控实例：</h4>
+                            <p>是由非网络实例化监控实例通过修改或者下发失败而得到的，与实例化相比，它最本质的区别就是下发状态是失败的或者未下发的，因为实例的数据被修改，进而影响了下发状态。</p>
+                            
+                            <h4 class="name">界面组成 ></h4>
+                            <p>主界面包括数据查询、查看、编辑、删除按钮</p>
+                            <img src="./images/NoRuleInstance-main.png" alt="smile" class="mainimg" width="100%"/>
+                            <p class="bold">注意：</p>
+                            <p>非网络实例化监控实例显示的是所有的下发失败或者未下发的非网络监控实例，如果想要下发，需要在监控实例里面点击下发按钮，因为这个下发按钮是下发所有的非实例化监控策略，当然也包括非网络域的非实例化监控策略。
+                            </p>
+                            <p class="bold">主界面按钮说明如下：</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>操作</th>
+                                        <th>说明</th>
+                                        <th>图例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>查看</td>
+                                        <td>查看非网络实例化监控实例。</td>
+                                        <td><img src="./images/toollist-look.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>删除</td>
+                                        <td>删除单个监控实例。</td>
+                                        <td><img src="./images/toollist-delete1.png" alt="smile"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>编辑</td>
+                                        <td>编辑某个非网络监控实例。</td>
+                                        <td><img src="./images/toollist-edit.png" alt="smile"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>查询</td>
+                                        <td>查询框位于主界面的上部，查询按钮右端的箭头可展开或收起查询条件。</td>
+                                        <td><img src="./images/toollist-query.png" alt="smile"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=1 align=left>
+                            <h4 class="name">查看具体信息</h4>
+                            <p>查看对象具体信息：</p>
+                            <img src="./images/NoRuleInstance1.png" alt="smile" width="100%"/>
+                            <p>查看策略规则：</p>
+                            <img src="./images/NoRuleInstance2.png" alt="smile" width="100%"/>
+                            <p>查看策略模板：</p>
+                            <img src="./images/NoRuleInstance4.png" alt="smile" width="100%"/>
+                            <p>查看监控工具：</p>
+                            <img src="./images/NoRuleInstance3.png" alt="smile" width="100%"/>
+                        </div>
+                    </div>
+				</div>
+                </li>
+                <li>
+                    <div id="examples">
+                       <h2 class="mainTitle">3.举例</h2>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-timePeriods">
+                        <h3 class="main_title">周期配置</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <br/>
+                        <div class="content">
+                            <img src="./images/example-timePeriods.png" alt="smile" class="mainimg"/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-mo">
+                        <h3 class="main_title">添加监控对象</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <br/>
+                        <div class="content">
+                            <p>新增网络域 - 路由器：</p>
+                            <img src="./images/example-mo-router.png" alt="smile" class="mainimg"/>
+                            <p>新增路由器下接口：</p>
+                            <img src="./images/example-mo-router-if.png" alt="smile" style="width: 50%;"/>
+                            <p>新增IP：</p>
+                            <img src="./images/example-mo-IP.png" alt="smile" style="width: 50%;"/>
+                            <p>新增硬件 - 小型机：</p>
+                            <img src="./images/example-mo-hw-server.png" alt="smile" style="width: 50%;"/>
+                            <p>新增存储 - 存储设备：</p>
+                            <img src="./images/example-mo-storage.png" alt="smile" style="width: 50%;"/>
+                            <p>新增操作系统 - WINDOWS：</p>
+                            <img src="./images/example-mo-os.png" alt="smile" style="width: 50%;"/>
+                            <p>新增数据库 - Oracle：</p>
+                            <img src="./images/example-mo-db.png" alt="smile" style="width: 50%;"/>
+                            <p>新增中间件 - Tomcat：</p>
+                            <img src="./images/example-mo-mw.png" alt="smile" style="width: 50%;"/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-toollist">
+                        <h3 class="main_title">工具配置</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <br/>
+                        <div class="content">
+                            <img src="./images/example-toollist.png" alt="smile" class="mainimg"/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-network">
+                        <h3 class="main_title">网络域配置</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <div id="example-network-PING" class="content">
+                            <h4 class="name">PING配置 ></h4>
+                                <p>监控指标：</p>
+                                <img src="./images/example-PING-indicator.png" alt="smile" class="mainimg"/>
+                                <p>指标实现：</p>
+                                <img src="./images/example-PING-zabbixItems.png" alt="smile" />
+                                <p>策略模板：</p>
+                                <img src="./images/example-PING-policyTemplet.png" alt="smile"/>
+                                <p>策略规则：</p>
+                                <img src="./images/example-PING-policyRule.png" alt="smile"/>
+                        </div>
+                        <div id="example-network-RPING" class="content">
+                            <h4 class="name">RPING配置 ></h4>
+                            <h4>注意：rping只支持线路，而且只支持部分类型的源设备。</h4>
+                                <p>监控指标：</p>
+                                <img src="./images/example-RPING-indicator.png" alt="smile" class="mainimg"/>
+                                <p>指标实现：</p>
+                                <img src="./images/example-RPING-zabbixItems.png" alt="smile" />
+                                <p>策略模板：</p>
+                                <img src="./images/example-RPING-policyTemplet.png" alt="smile"/>
+                                <p>策略规则：</p>
+                                <img src="./images/example-RPING-policyRule.png" alt="smile"/>
+                                
+                        </div>
+                        <div id="example-network-SNMP" class="content">
+                            <h4 class="name">SNMP配置 ></h4>
+                                <p>监控指标：</p>
+                                <img src="./images/example-SNMP-indicator.png" alt="smile" class="mainimg"/>
+                                <p>指标实现：</p>
+                                <img src="./images/example-SNMP-zabbixItems.png" alt="smile" />
+                                <h4>注意：上图公式中的SNMP OID对应监控对象里面的ObjectID。</h4>
+                                <img src="./images/example-SNMP-mo.png" alt="smile" />
+                                <p>策略模板：</p>
+                                <img src="./images/example-SNMP-policyTemplet.png" alt="smile"/>
+                                <p>策略规则：</p>
+                                <img src="./images/example-SNMP-policyRule.png" alt="smile"/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-system">
+                        <h3 class="main_title">系统域配置</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <div id="example-network-SNMP" class="content">
+                            <h4 class="name">Linux配置 ></h4>
+                            <p>监控指标：</p>
+                            <img src="./images/example-Linux-indicator.png" alt="smile" class="mainimg"/>
+                            <p>指标实现：</p>
+                            <img src="./images/example-Linux-zabbixItems.png" alt="smile" />
+                            <h4>注意：上图公式中的Key填写agent.ping，Item类型填写Zabbix agent。</h4>
+                            <p>策略模板：</p>
+                            <img src="./images/example-Linux-policyTemplet.png" alt="smile"/>
+                            <p>策略规则：</p>
+                            <img src="./images/example-Linux-policyRule.png" alt="smile"/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div id="example-troubleshooting" class="content">
+                        <h3 class="main_title">问题排查</h3>
+                        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 align=left>
+                        <p>通过监控策略规则管理页面的计算按钮来排查配置问题:</p>
+                        <img src="./images/troubleshooting-calculate.png" width="90%" alt="smile"/>
+                        <p>在计算结果中可以看到各种错误配置导致的问题。</p>
+                        <img src="./images/troubleshooting-result.png" alt="smile"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./js/jquery.min.js"></script>
+
+</body>
+
+</html>

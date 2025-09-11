@@ -1,0 +1,61 @@
+.formItemDisplayNone {
+  display : none;
+}
+
+.formItemDisplayBlock {
+  display : block;
+}
+
+.rowSpacing {
+	margin-bottom: 8px;
+}
+
+:global .fontStyle1 {
+	/*float:left;*/ 
+	text-align: left !important;
+}
+:global .ant-card-body{
+	padding: 10px;
+}
+:global .InterfaceStyle,:global .InterfaceStyle ul,:global .InterfaceStyleOther,:global .InterfaceStyleOther ul{
+	width: 100%;
+	height: auto;
+  margin: 0 auto;
+}
+
+:global .InterfaceStyle ul li,:global .InterfaceStyleOther ul li{
+	  width: 100%;
+    height: auto;
+    min-height: 30px;
+    line-height: 30px;
+    float: left;
+    border-bottom: 1px dashed #e6e6e6;
+    font-size: 12px;
+}
+:global .InterfaceStyle ul li p,:global .InterfaceStyleOther ul li p{
+	  float: left;
+}
+:global .InterfaceStyle ul li p:first-child,:global .InterfaceStyleOther ul li p:first-child{
+    width: 25%;
+    min-height: 30px;
+    height: auto;
+}
+:global .InterfaceStyle ul li p:last-child{
+    width: 70%;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+:global .InterfaceStyleOther ul li p:not(first-child){
+    width: 105px;
+    text-align: center;
+}
+:global .InterfacePan{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}

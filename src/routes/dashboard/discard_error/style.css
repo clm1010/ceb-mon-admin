@@ -1,0 +1,37 @@
+.ant-card-head-title {
+padding-top: 12px;
+padding-bottom: 12px;
+}
+/* textAlign:'center', fontWeight:500, color:'#000' */
+:global .title {
+    text-align: center;
+    font-weight: 500;
+    color: rgba(0, 0, 0,0.8);
+    font-size:14px;
+}
+:global .ellipsis{
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+:global .ellipsis div{
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+:global .name div{
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+}
+:global .name{
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+}

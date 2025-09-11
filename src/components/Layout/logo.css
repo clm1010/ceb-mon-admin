@@ -1,0 +1,13 @@
+.ceb_logo {
+	height: 42px;
+	width: 38px;
+	/*background: url(./b.png) no-repeat center 0;*/
+	/*background-size: 100% 100%;*/
+	/*margin-right: 8px;*/
+	/*position: relative;
+	bottom: 3px;*/
+}
+
+.ceb_logo_text{
+	color: #FFFFFF;
+}
