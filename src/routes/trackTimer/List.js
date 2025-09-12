@@ -36,14 +36,6 @@ function list ({
 			type: 'trackTimer/query',
 			payload: queryParams,
 		})
-		dispatch({
-			type: 'trackTimer/showModal',
-			payload: {
-				pageChange: new Date().getTime(),
-				batchDelete: false,
-				selectedRows: [],
-			},
-		})
 	}
 
 
