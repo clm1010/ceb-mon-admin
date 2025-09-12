@@ -92,14 +92,15 @@ export default {
                 query: parse(window.location.search.substr(1)),
             })) */
             let pageItem = yield select(({ trackTimer }) => trackTimer.pagination)
-			let q = parse(window.location.search.substr(1)).q
+			// 获取URL中的所有查询参数，不仅仅是 q 参数
+			let urlParams = parse(window.location.search.substr(1))
 
 			yield put({
 				type: 'query',
 				payload: {
 					page: pageItem.current - 1,
 					pageSize: pageItem.pageSize,
-					q: q
+					...urlParams  // 展开所有URL参数，包括 q, enabled 等
 				},
 			})
         },

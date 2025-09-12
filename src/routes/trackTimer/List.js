@@ -19,13 +19,22 @@ function list ({
 	}
 
 	const onPageChange = (page) => {
+		// 获取当前URL中的所有查询参数
+		const currentQuery = new URLSearchParams(window.location.search)
+		const queryParams = {}
+		
+		// 保持所有现有的查询参数
+		for (let [key, value] of currentQuery.entries()) {
+			queryParams[key] = value
+		}
+		
+		// 更新分页参数
+		queryParams.page = page.current - 1
+		queryParams.pageSize = page.pageSize
+		
 		dispatch({
 			type: 'trackTimer/query',
-			payload: {
-				page: page.current - 1,
-				pageSize: page.pageSize,
-				q: q === undefined ? '' : q,
-			},
+			payload: queryParams,
 		})
 		dispatch({
 			type: 'trackTimer/showModal',
